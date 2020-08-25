@@ -1,0 +1,195 @@
+<html lang="en">
+    <head>
+        <title>Dashboard - Sugbo Merkado</title>
+
+        <link rel="stylesheet" href="misc/dashboard.css">
+		<link rel="stylesheet" href="misc/nav-style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <body>
+		<!-- navbar -->
+	    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-color " role="navigation">
+	        <div class="navbar-brand"> 
+	            <div class="title-container">
+	                <a href="#" id="title">Sugbo Mercado</a>
+	            </div>
+	        </div>
+	        <ul class="navbar-nav mr-auto"></ul>
+	        <ul class="navbar-nav"></ul>
+	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	            <ul class="navbar-nav mr-auto"></ul>
+	            <ul class="navbar-nav" id="navRight">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="#"><b>HOME</b></a>
+	                </li>
+					
+	                <li id="icon" class="nav-item in-login login"><a class="nav-link" href="#"><i class="fas fa-archive" aria-hidden="true"></i></a></li> 
+	                <li id="icon" class="nav-item dropdown in-login login">
+						<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+							<i class="fas fa-user" aria-hidden="true"></i></a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="#"><h6>Dashboard</h6></a>
+						</div>
+					</li>
+	                <form class="logout-btn" method="POST">
+					<li class="nav-item logout-btn">
+						<div class="text-center">
+							<button id="logBtn" class="btn btn-primary btn-lg btn-block login-btn" name="btnLogout">Sign Out</button>
+						</div>
+					</li>	
+				</form>
+	            </ul> 
+	        </div>
+	    </nav>
+        
+
+		<div class="container-fluid page-label">
+			<div class = " d-flex flex-column align-items-center ">
+				<h1>Dashboard</h1>
+			</div>
+		</div>
+
+		<div class = "customer">
+			<div class="container table-responsive text-center p-25" id="lists"> <!---Products-->
+				<form method='post'>
+					<div class='form-group row'>
+						<label for='category' class='col-sm-1 offset-sm-8 col-form-label text-left'>Filter : </label>
+						<div class='col-sm-3'>
+							<select name="category" id='category' class='form-control'>
+								<option name='date'>Date Registered</option>
+								<option name='fname'>First Name</option>
+								<option name='lname'>Last Name</option>
+								<option name='bday'>Date of Birth</option>
+								<option name='address'>Address City</option>
+							</select>
+						</div>
+					</div>
+				</form>
+				<table class='table table-condensed table-hover table-bordered col-md-11 mx-auto'>
+					<caption>Customer Report Summary</caption>
+					<thead class='text-center'>
+						<tr>
+							<th>Date Registered</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Date of Birth</th>
+							<th>Address City</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Jan. 1,2020</td>
+							<td>Lhora Mae</td>
+							<td>Alvarez</td>
+							<td>Nov. 2, 1998</td>
+							<td>Cebu City</td>
+							<td class='text-center'>
+								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+							</td>
+						</tr>
+						<tr>
+							<td>Jan. 1,2020</td>
+							<td>Mel Jay</td>
+							<td>Llanos</td>
+							<td>July 18, 1999</td>
+							<td>Cebu City</td>
+							<td class='text-center'>
+								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+							</td>
+						</tr>	
+					</tbody>
+					
+				</table>
+				<div class='col-md-2 offset-md-10'>
+					<a href='#'>See more...</a>
+				</div>
+			</div>
+
+		</div>
+
+		<div class = "product">
+			<div class="container table-responsive text-center p-25" id="lists"> <!---Products-->
+				<form method='post'>
+					<div class='form-group row'>
+						<label for='category' class='col-sm-1 offset-sm-8 col-form-label text-left'>Filter : </label>
+						<div class='col-sm-3'>
+							<select name="category" id='category' class='form-control'>
+								<option name='pdate'>Date Registered</option>
+								<option name='category'>Category</option>
+								<option name='brand'>Brand</option>
+								<option name='pname'>Name</option>
+								<option name='price'>Unit Price</option>
+								<option name='pQty'>No. of Items</option>
+							</select>
+						</div>
+					</div>
+				</form>
+				<table class='table table-condensed table-hover table-bordered col-md-11 mx-auto'>
+					<caption>Product Report Summary</caption>
+					<thead class='text-center'>
+						<tr>
+							<th>Date Registered</th>
+							<th>Category</th>
+							<th>Brand</th>
+							<th>Name</th>
+							<th>Unit Price</th>
+							<th>No. of Items</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Jan. 1,2020</td>
+							<td>Unisex</td>
+							<td>Rolex</td>
+							<td>Rose Gold Watch</td>
+							<td>12,900</td>
+							<td>10</td>
+							<td class='text-center'>
+								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
+								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+							</td>
+						</tr>
+						
+					</tbody>
+					
+				</table>
+				<div class='col-md-2 offset-md-10'>
+					<a href='#'>See more...</a>
+				</div>
+			</div>
+
+		</div>
+    
+        <footer class="page-footer font-small">
+            <div class="container">
+                <div class="flex-sb-m flex-w p-t-22 p-b-22">
+                    <div class="txt17" style="color:gray">
+                        Copyright © 2020 All rights reserved  |  This project is made with <i class="fa fa-heart"></i> by <a href="#" target="_blank" style="color:#2fce98">LLANOS AND ALVAREZ</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+	
+	
+    </body>
+        
+	
+</html>
