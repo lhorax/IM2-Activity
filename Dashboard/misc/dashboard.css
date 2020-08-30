@@ -10,39 +10,38 @@
     padding-top: 100px;
     width: 100%;
 }
-.customer{
+.customer, .product{
     width: 100%;
     background: #FFFFFF;
-    padding-top: 68px;
-    padding-bottom: 100px;
 }
-.product{
-	width: 100%;
-    background: #FFFFFF;
-    padding-top: 0px;
-    padding-bottom: 100px;
+
+#secondNav a{
+	color:#00350d;
 }
-#lists{
-	width:80%;
-	background-color:#e1f0dc;
+
+#secondNav li{
+	font-size:18px;
 }
-.table{
-	background-color: #f5fff0 !important;
+
+.active{
+	font-weight:bold;
 }
-table, th, td{
-	border-collapse:collapse; 
+
+.pagination>li {
+display: inline;
+padding:0px !important;
+margin:0px !important;
+border:none !important;
 }
-table caption{
-	caption-side:top;
+.modal-backdrop {
+  z-index: -1 !important;
 }
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #ceffe1;
-}
-table i{
-	padding: 5px;
-}
-table a{
-	color:#1db26d;
+/*
+Fix to show in full screen demo
+*/
+iframe
+{
+    height:700px !important;
 }
 
 .p-25{
@@ -63,7 +62,55 @@ ul li{
 	
 }
 
-#logBtn{
-	padding:3px 16px 4px 16px;
-	font-size:18px;
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+#customerTable_filter, #productTable_filter{
+    float:right;
+}
+#customerTable_paginate, #productTable_paginate{
+    float:right;
+}
+label {
+    display: inline-flex!important;
+    margin-bottom: .5rem;
+    margin-top: .5rem;  
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #e3ffea;
+}
+
+table i{
+	padding: 5px;
+}
+table a{
+	color:#1db26d !important;
+}
+
+#updateBtn, #deleteBtn{
+	background-color:#1db26d;
+	color:#ffffff;
+}
+
+#customerCard{
+	background-color:#f31b66;
+	border: none;
+	color: #ffffff;
+}
+
+#productCard{
+	background-color:#8e1bf3;
+	border: none;
+	color: #ffffff;
 }

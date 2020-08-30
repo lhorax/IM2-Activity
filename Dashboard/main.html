@@ -10,7 +10,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-
+		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+		<script src="misc/table.js"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     </head>
@@ -58,123 +60,160 @@
 				<h1>Dashboard</h1>
 			</div>
 		</div>
-
-		<div class = "customer">
-			<div class="container table-responsive text-center p-25" id="lists"> <!---Products-->
-				<form method='post'>
-					<div class='form-group row'>
-						<label for='category' class='col-sm-1 offset-sm-8 col-form-label text-left'>Filter : </label>
-						<div class='col-sm-3'>
-							<select name="category" id='category' class='form-control'>
-								<option name='date'>Date Registered</option>
-								<option name='fname'>First Name</option>
-								<option name='lname'>Last Name</option>
-								<option name='bday'>Date of Birth</option>
-								<option name='address'>Address City</option>
-							</select>
+		
+		<br>
+		<nav id='secondNav' class="navbar navbar-expand-sm justify-content-center">
+		  <ul class="navbar-nav">
+			<li class="nav-item active">
+			  <a class="nav-link" href="main.html">Overview</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="customer.html">Customer Report</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="product.html">Product Report</a>
+			</li>
+		  </ul>
+		</nav>
+		<br>
+		
+		<div class="col-md-7 mx-auto card-deck">
+			<div class="card" id="customerCard">
+				<div class="card-body">
+					<div class="row align-items-center">
+						<div class="col-md-6">
+							<h6 class="font-weight-normal mt-0 text-truncate">Customers</h6>
+							<h3 class="my-auto">3</h3>
+						</div>
+						<div class="col-md-6 text-center my-2">
+							<i class="fas fa-users fa-4x"></i>
 						</div>
 					</div>
-				</form>
-				<table class='table table-condensed table-hover table-bordered col-md-11 mx-auto'>
+				</div>
+			</div>
+			<div class='card' id="productCard">
+				<div class="card-body">
+					<div class="row align-items-center">
+						<div class="col-md-6">
+							<h6 class="font-weight-normal mt-0 text-truncate">Product Items</h6>
+							<h3 class="my-auto">2</h3>
+						</div>
+						<div class="col-md-6 text-center my-2">
+							<i class="fas fa-boxes fa-4x"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br><br>
+		
+		<div class = "customer">
+			<div class="row table-responsive">
+				<div class="col-md-10 mx-auto">
+				<h3>Customer Report Summary</h3>
+				<table id="customerTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<caption>Customer Report Summary</caption>
-					<thead class='text-center'>
-						<tr>
+    				<thead>
+						<tr class="text-center">
 							<th>Date Registered</th>
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Date of Birth</th>
 							<th>Address City</th>
-							<th>Actions</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>Jan. 1,2020</td>
+							<td>Aug. 30, 2020</td>
 							<td>Lhora Mae</td>
-							<td>Alvarez</td>
-							<td>Nov. 2, 1998</td>
+							<td>Edinburgh</td>
+							<td>Nov. 2,1998</td>
 							<td>Cebu City</td>
-							<td class='text-center'>
-								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+                            <td class="text-center">
+								<span data-title="ViewCustomer" data-toggle="modal" data-target="#view" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+								<span data-title="EditCustomer" data-toggle="modal" data-target="#editCustomer" ><a data-placement="top" data-toggle="tooltip" title="Edit" type="button"><i class="fas fa-pen" aria-hidden="true"></i></a></span>
+								<span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
 							</td>
 						</tr>
 						<tr>
-							<td>Jan. 1,2020</td>
-							<td>Mel Jay</td>
-							<td>Llanos</td>
-							<td>July 18, 1999</td>
-							<td>Cebu City</td>
-							<td class='text-center'>
-								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+							<td>Aug. 03, 2020</td>
+							<td>Kei</td>
+							<td>Takeshima</td>
+							<td>Apr. 1,1990</td>
+							<td>Manila City</td>
+                            <td class="text-center">
+								<span data-title="ViewCustomer" data-toggle="modal" data-target="#view" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+								<span data-title="EditCustomer" data-toggle="modal" data-target="#editCustomer" ><a data-placement="top" data-toggle="tooltip" title="Edit" type="button"><i class="fas fa-pen" aria-hidden="true"></i></a></span>
+								<span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
 							</td>
-						</tr>	
+						</tr>
+						<tr>
+							<td>Dec. 03, 2020</td>
+							<td>Wassup</td>
+							<td>Yo</td>
+							<td>Jun. 1,1996</td>
+							<td>Manila City</td>
+                            <td class="text-center">
+								<span data-title="ViewCustomer" data-toggle="modal" data-target="#view" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+								<span data-title="EditCustomer" data-toggle="modal" data-target="#editCustomer" ><a data-placement="top" data-toggle="tooltip" title="Edit" type="button"><i class="fas fa-pen" aria-hidden="true"></i></a></span>
+								<span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
+							</td>
+						</tr>
 					</tbody>
-					
 				</table>
-				<div class='col-md-2 offset-md-10'>
-					<a href='#'>See more...</a>
 				</div>
 			</div>
-
 		</div>
-
+		<br>
 		<div class = "product">
-			<div class="container table-responsive text-center p-25" id="lists"> <!---Products-->
-				<form method='post'>
-					<div class='form-group row'>
-						<label for='category' class='col-sm-1 offset-sm-8 col-form-label text-left'>Filter : </label>
-						<div class='col-sm-3'>
-							<select name="category" id='category' class='form-control'>
-								<option name='pdate'>Date Registered</option>
-								<option name='category'>Category</option>
-								<option name='brand'>Brand</option>
-								<option name='pname'>Name</option>
-								<option name='price'>Unit Price</option>
-								<option name='pQty'>No. of Items</option>
-							</select>
-						</div>
-					</div>
-				</form>
-				<table class='table table-condensed table-hover table-bordered col-md-11 mx-auto'>
+			<div class="row table-responsive">
+				<div class="col-md-10 mx-auto">
+				<h3>Product Report Summary</h3>
+				<table id="productTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					<caption>Product Report Summary</caption>
-					<thead class='text-center'>
-						<tr>
+    				<thead>
+						<tr class="text-center">
 							<th>Date Registered</th>
 							<th>Category</th>
 							<th>Brand</th>
 							<th>Name</th>
 							<th>Unit Price</th>
-							<th>No. of Items</th>
-							<th>Actions</th>
+							<th>Quantity</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>Jan. 1,2020</td>
+							<td>Aug. 30, 2020</td>
 							<td>Unisex</td>
-							<td>Rolex</td>
-							<td>Rose Gold Watch</td>
-							<td>12,900</td>
+							<td>Harley Ruedas</td>
+							<td>White Cotton Dress</td>
+							<td>12,598</td>
 							<td>10</td>
-							<td class='text-center'>
-								<a href='#'><i class="fa fa-eye" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-pen" aria-hidden="true"></i></a>
-								<a href='#'><i class="fas fa-trash-alt" aria-hidden='true'></i></a>
+                            <td class="text-center">
+								<span data-title="ViewProduct" data-toggle="modal" data-target="#view" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+								<span data-title="EditProduct" data-toggle="modal" data-target="#editProduct" ><a data-placement="top" data-toggle="tooltip" title="Edit" type="button"><i class="fas fa-pen" aria-hidden="true"></i></a></span>
+								<span data-title="DeleteProduct" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
 							</td>
 						</tr>
-						
+						<tr>
+							<td>Aug. 03, 2020</td>
+							<td>Men</td>
+							<td>BUM</td>
+							<td>Black Punk T-shirt</td>
+							<td>599</td>
+							<td>36</td>
+                            <td class="text-center">
+								<span data-title="ViewProduct" data-toggle="modal" data-target="#view" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+								<span data-title="EditProduct" data-toggle="modal" data-target="#editProduct" ><a data-placement="top" data-toggle="tooltip" title="Edit" type="button"><i class="fas fa-pen" aria-hidden="true"></i></a></span>
+								<span data-title="DeleteProduct" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
+							</td>
+						</tr>
 					</tbody>
-					
 				</table>
-				<div class='col-md-2 offset-md-10'>
-					<a href='#'>See more...</a>
 				</div>
 			</div>
-
 		</div>
     
         <footer class="page-footer font-small">
@@ -187,6 +226,78 @@
             </div>
         </footer>
 	
+	<div id="editCustomer" class="modal fade" role="dialog" tabindex="-1">
+	  <div class="modal-dialog">
+
+		<div class="modal-content">
+			<form method='post' action='' id="insert_form" enctype="multipart/form-data">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			
+			  First Name : <input type='text' name='fName' id='fname' class='form-control' required><br>
+			  Last Name : <input type='text' name='lName' id='lname' class='form-control' required><br>
+			  Date of Birth : <input type='date' name='bday' id='bday' class='form-control' required><br>
+			  Address : <input type='text' name='address' id='address' class='form-control' required><br>
+			  
+			  <div class="modal-footer">
+				<input type="submit" name="btnUpdate" class="btn btn-default" id="updateBtn" Value="UPDATE">
+				<input type="button" class="btn btn-default" Value="CLOSE" data-dismiss="modal"/>
+			  </div>
+			</form>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+	
+	<div id="editProduct" class="modal fade" role="dialog" tabindex="-1">
+	  <div class="modal-dialog">
+
+		<div class="modal-content">
+			<form method='post' action='' id="insert_form" enctype="multipart/form-data">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			
+			  Category : <select name="category" id='category' class='form-control'>
+							<option name='unisex'>Unisex</option>
+							<option name='Women'>Women</option>
+							<option name='Men'>Men</option>
+						</select><br>
+			  Brand : <input type='text' name='brand' id='brand' class='form-control'><br>
+			  Name : <input type='text' name='pName' id='pName' class='form-control' required><br>
+			  Unit Price : <input type="number" name="unitPrice" id='price' min="0.00" step="0.01" class='form-control' placeholder='Php 0.00' required><br>
+			  Quantity : <input type='number' name='qty' id='qty' min="1" class='form-control' placeholder='0' required><br>
+			  
+			  <div class="modal-footer">
+				<input type="submit" name="btnUpdate" class="btn btn-default" id="updateBtn" Value="UPDATE">
+				<input type="button" class="btn btn-default" Value="CLOSE" data-dismiss="modal"/>
+			  </div>
+			</form>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+    
+	<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+				</div>
+			<div class="modal-footer ">
+				<form method='post' action='' id='deleteRecord'>
+					<input type="submit" name="btnDelete" class="btn btn-default" id="deleteBtn" Value="YES">
+					<input type="button" class="btn btn-default" Value="NO" data-dismiss="modal"/>
+				</form>
+			 </div>
+			</div>
+		</div>
+    </div>
 	
     </body>
         

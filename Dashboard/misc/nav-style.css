@@ -43,9 +43,11 @@
 	margin:0;
 }
 #logBtn{
-	background-color:#e9ffdc;
-	border-color:#e9ffdc;
-	color:#28352f;
+	background-color:#e9ffdc !important;
+	border-color:#e9ffdc !important;
+	color:#28352f !important;
+	padding:3px 16px 4px 16px;
+	font-size:18px;
 }
 .txt17 {
     font-family: Noto+Sans;
