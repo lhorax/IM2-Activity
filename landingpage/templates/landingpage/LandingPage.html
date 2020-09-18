@@ -1,0 +1,203 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Sugbo Merkado</title>
+
+        <!-- <link rel="stylesheet" href="landing-page.css"> -->
+		<link rel="stylesheet" href="{% static '/css/nav-style.css' %}">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <style type="text/css">
+        	.img-background{
+        		background-image: url( {% static '/photos/bg.jpg'%} );
+        		height: 100%;
+    			background-repeat: no-repeat;
+			    background-attachment: fixed;
+			    background-size: cover;
+        	}
+        </style>
+    </head>
+
+    <body>
+		<!-- navbar -->
+	    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-color " role="navigation">
+	        <div class="navbar-brand"> 
+	            <div class="title-container">
+	                <a href="#" id="title">Sugbo Mercado</a>
+	            </div>
+	        </div>
+	        <ul class="navbar-nav mr-auto"></ul>
+	        <ul class="navbar-nav"></ul>
+	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	            <ul class="navbar-nav mr-auto"></ul>
+	            <ul class="navbar-nav" id="navRight">
+	                <li class="nav-item">
+	                    <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg-about" ><b>About us</b></a>
+					</li>
+					<li class="nav-item">
+	                    <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg-contact"><b>Contact us</b></a>
+	                </li>
+	                
+	            </ul> 
+	        </div>
+	    </nav>
+        
+
+        <div class="row img-background" style="padding-top: 80px;">
+        		<div class="col-md-1"></div>
+        		<div class="col-md-3" style="padding-top: 180px;">
+        			<div class="login-form">
+
+					    <form action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+							{% csrf_token %}
+					        <h2 class="text-center">Log in</h2>       
+					        <div class="form-group">
+					            <input type="text" class="form-control" placeholder="Username" required="required">
+					        </div>
+					        <div class="form-group">
+					            <input type="password" class="form-control" placeholder="Password" required="required">
+					        </div>
+					        <div class="form-group">
+					            <button type="submit" class="btn btn-primary btn-block" style="background-color: #2fce98; color: white;">Log in</button>
+					        </div>
+					        <div class="clearfix">
+					            <label class="float-left form-check-label" style="color: white;"><input type="checkbox"> Remember me</label>
+					            <a href="#" class="float-right" style="color: white;">Forgot Password?</a>
+					        </div>        
+					    </form>
+					    
+					</div>
+	        	</div>
+		</div>
+		
+		<!-- Large modal -->
+		<div class="modal fade bd-example-modal-lg-about" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content p-5">
+					<div class="modal-header">
+						<h2 style="font-family:'Lobster';color: #2fce98;">About Us</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<h2><b>DISCOVER OUR STORY</b></h2>
+					<p style="margin:5% 0%;font-size:18px">
+						<b>Welcome to Sugbo Merkado where you can discover Cebu’s world class items.</b>
+					</p>
+					<p style="margin:0% 0%;font-size:15px; color:#636363; width:97%;line-height:25px">
+						Sugbo Merkado is Cebu's leading online shop discovery and delivery network.
+						Sugbo Merkado's story is developed in 2020 by hospitality and technology professionals 
+						with a desire to better connect buyers and sellers. We’re proud of our roots 
+						supporting Cebu's e-commerce and retail services.
+						
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Large modal -->
+		<div class="modal fade bd-example-modal-lg-contact" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content p-5">
+					<div class="modal-header">
+						<h2 style="font-family:'Lobster';color: #2fce98;">Contact Us</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<br>
+					<div class="row">
+						<div class="d-flex flex-row col-12 col-sm">
+							<div class="d-flex flex-column justify-content-around">
+								<i class="fas fa-mobile-alt icons"></i>
+								<i class="far fa-envelope icons"></i>
+								<i class="fab fa-instagram icons"></i>
+								<i class="fab fa-facebook icons"></i>
+								<i class="fab fa-twitter icons"></i>
+							</div>
+							<div class="d-flex flex-column pl-3 justify-content-around">
+								<div class="">
+									<h5>Phone number</h5>
+									<p>+69363967814</p>
+								</div>
+								<div class="">
+									<h5>Email</h5>
+									<p>sugbomerkado@gmail.com</p>
+								</div>
+								<div class = "">
+									<h5>Instagram</h5>
+									<p>@sugbomerkado</p>
+								</div>
+								<div class = "">
+									<h5>Facebook</h5>
+									<p>@sugbomerkado</p>
+								</div>
+								<div class = "">
+									<h5>Twitter</h5>
+									<p>@sugbomerkado</p>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex col-12 col-sm">
+
+							<form class="text-center" action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="row">
+									<div class="form-group col-md-6">
+										<input type="text" class="form-control" placeholder="Your Name"/>
+									</div>
+									<div class="form-group col-md-6">
+										<input type="email" class="form-control" placeholder="Email" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<input type="tel" minlength="11" maxlength="11" pattern="[0][9][0-9]{9}" title="Phone no. starts with 09" class="form-control" placeholder="Phone" required=true/>
+									</div>
+									<div class="form-group col-md-6">
+										<input type="text" class="form-control" placeholder="Subject" />
+									</div>
+								</div>	
+								<div class="row">
+									<div class="form-group col-md-12">
+										<textarea placeholder= "Your Message" class="form-control input-style" rows="6" id="comment" name="text"></textarea>
+									</div>
+									<button class="btn btn-primary btn-block my-4" type="submit" style="background-color: #2fce98; color: white;">Submit</button>
+								</div>	
+							</form> 
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		
+    
+        <footer class="page-footer font-small">
+            <div class="container">
+                <div class="flex-sb-m flex-w p-t-22 p-b-22">
+                    <div class="txt17" style="color:gray">
+                        Copyright © 2020 All rights reserved  |  This project is made with <i class="fa fa-heart"></i> by <a href="#" target="_blank" style="color:#2fce98">LLANOS</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+	
+	
+    </body>
+        
+	
+</html>
