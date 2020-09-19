@@ -2,7 +2,9 @@ from django.db import models
 
 # Create your models here.
 class Person(models.Model):
-    firstname = models.CharField(max_length=50, blank=True, null=True)
+    profile_pic = models.ImageField(default = "placeholder.png") 
+
+    firstname = models.CharField(max_length=50)
     middlename = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     street = models.CharField(max_length=50)
@@ -26,7 +28,7 @@ class Person(models.Model):
     f_name = models.CharField(max_length=50)
     f_job = models.CharField(max_length=50)
 
-    profile_pic = models.ImageField(default = "placeholder.png") 
+    
     
     class Meta:
         db_table = "Person"

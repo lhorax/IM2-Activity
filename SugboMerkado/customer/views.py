@@ -26,9 +26,9 @@ class CustomerRegistrationView(View):
 		form = CustomerForm(request.POST, request.FILES)
 
 		if form.is_valid():
-			fname = request.POST.get("fname")
-			middlename = request.POST.get("mname")
-			lastname = request.POST.get("lname")
+			fname = request.POST.get("firstname")
+			middlename = request.POST.get("middlename")
+			lastname = request.POST.get("lastname")
 			street = request.POST.get("street")
 			brgy = request.POST.get("barangay")
 			prov = request.POST.get("province")
