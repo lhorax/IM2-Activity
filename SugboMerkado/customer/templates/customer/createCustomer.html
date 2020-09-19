@@ -1,0 +1,519 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static '/css/stepper.css' %}">
+    <link href="{% static 'css/temp.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+
+</head>
+<body>
+    <!-- Page Wrapper -->
+    <div id="wrapper" class="d-flex">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Sugbo Merkado</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:index_view' %}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Fields
+            </div>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'customer:index_view' %}">
+                    <i class="fa fa-users"></i>
+                    <span>Customers</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product:index_view' %}">
+                    <i class="fa fa-list"></i>
+                    <span>Products</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+					
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline">Valerie</span>
+                                <img class="img-profile rounded-circle"
+                                    src="{% static '/websiteImgs/placeholder.png' %}">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="container card shadow p-5">
+                        <form id="regForm" class="row" method="POST" action="#" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h1 class="text-center mt-4" style="width: 100%;">Customer Registration</h1>
+                            <!-- progress bar -->
+                            <div class="col-12 mb-3" style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                            </div>
+                            <!-- One "tab" for each step in the form: -->
+                            <br>
+                            <div class="tab col-12 shadow pt-5">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4 d-flex flex-column form-group">
+                                        <h5 class="text-center">Profile Picture</h5>
+                                        <div class="form-group">
+                                            <img id="uploadPreview" src="{% static '/websiteImgs/placeholder.png' %}"/>
+                                            <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-8 form-group">
+                                        <h4 class="text-center">General Information</h4>
+                                        <div class="container">
+                                            <h5>Name</h5>
+                                            <div class="row">
+                                                <div class="col-12 col-sm"><input type = "text" placeholder="Firstname" name="fname"></div>
+                                                <div class="col-12 col-sm"><input type = "text" placeholder="Middle Name" name="mname"></div>
+                                                <div class="col-12 col-sm"><input type = "text" placeholder="Lastname" name="lname"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <h5>Address</h5>
+                                                <!-- <input placeholder="" oninput="this.className = ''" name="address"> -->
+                                                <div class="row">
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="barangay"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Province" name="province"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" pattern="[0-9]" placeholder="Zip Code" name="zip"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm">
+                                                    <h5>Height</h5>
+                                                    <div><input type = "text" pattern="[0-9]" name="height"></div>
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Weight</h5>
+                                                    <div><input type = "text" pattern="[0-9]" name="weight"></div>
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Religion</h5>
+                                                    <input type = "text" name="religion">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm">
+                                                    <h5>Birthdate</h5>
+                                                    <input id="datedis" type = "date" name="birthdate">
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Status</h5>
+                                                    <select style="width: 100%; height: 47px;" name="status">
+                                                        <option value="single">Single</option>
+                                                        <option value="married">Married</option>
+                                                        <option value="widowed">Widowed</option>
+                                                        <option value="divorced">Divorced</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-sm form-group">
+                                                    <h5>Gender</h5>
+                                                    <select style="width: 100%; height: 47px;" name="gender">
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab col-12  shadow pt-5">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Family Background</h4>
+                                        <div class="container">
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm">
+                                                    <h5>Father's Name</h5>
+                                                    <input type="text" placeholder="" name="father-name">
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Occupation</h5>
+                                                    <input type="text" placeholder="" name="father-occupation">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm">
+                                                    <h5>Mother's Name</h5>
+                                                    <input type="text" placeholder="" name="mother-name">
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Occupation</h5>
+                                                    <input type="text" placeholder="" name="mother-occupation">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm">
+                                                    <h5>Spouce's Name</h5>
+                                                    <input type="text" placeholder="" name="spouse-name">
+                                                </div>
+                                                <div class="col-12 col-sm">
+                                                    <h5>Spouce's Occupation</h5>
+                                                    <input type="text" placeholder="" name="spouse-occupation">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-12 col-sm-6">
+                                                    <h5>Number of Children</h5>
+                                                    <input type="text" pattern="[0-9]" placeholder="" name="no-of-children">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                
+                            <div class="tab col-12">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Educational Attainment</h4>
+                                        <h5 class="text-center">( Elementary Years )</h5>
+                                        <div class="container">
+                
+                                            <div id="repeat-elementary">
+                                                <div id="elementary-details" class="shadow p-5">
+                                                    <div class="form-group">
+                                                        <h5>School</h5>
+                                                        <input placeholder="" name="elem-school[]">
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Grade</h5>
+                                                            <input placeholder="" name="elem-grade[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Year Completed</h5>
+                                                            <input placeholder="" name="elem-year[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h5>Awards</h5>
+                                                        <input placeholder="" name="elem-awards[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="d-flex justify-content-center pt-4">
+                                                <button type="button" id="addElementary" class="btn add-btn">Add More Field</button>
+                                            </div>
+                
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+
+                            <div class="tab col-12">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Educational Attainment</h4>
+                                        <h5 class="text-center">( Junior Years )</h5>
+                                        <div class="container">
+                
+                                            <div id="repeat-jr">
+                                                <div id="jr-details" class="shadow p-5">
+                                                    <div class="form-group">
+                                                        <h5>School</h5>
+                                                        <input placeholder="" name="jr-school[]">
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Grade</h5>
+                                                            <input placeholder="" name="jr-grade[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Year Completed</h5>
+                                                            <input placeholder="" name="jr-year[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h5>Awards</h5>
+                                                        <input placeholder="" name="jr-awards[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="d-flex justify-content-center pt-4">
+                                                <button type="button" id="addJr" class="btn add-btn">Add More Field</button>
+                                            </div>
+                
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            
+                            <div class="tab col-12">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Educational Attainment</h4>
+                                        <h5 class="text-center">( Senior Years )</h5>
+                                        <div class="container">
+                
+                                            <div id="repeat-sr">
+                                                <div id="sr-details" class="shadow p-5">
+                                                    <div class="form-group">
+                                                        <h5>School</h5>
+                                                        <input placeholder="" name="sr-school[]">
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Grade</h5>
+                                                            <input placeholder="" name="sr-grade[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Strand</h5>
+                                                            <input placeholder="" name="sr-strand[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Year Completed</h5>
+                                                            <input placeholder="" name="sr-year[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h5>Awards</h5>
+                                                        <input placeholder="" name="sr-awards[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="d-flex justify-content-center pt-4">
+                                                <button type="button" id="addSr" class="btn add-btn">Add More Field</button>
+                                            </div>
+                
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+
+
+                            <div class="tab col-12">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Educational Attainment</h4>
+                                        <h5 class="text-center">( College Years )</h5>
+                                        <div class="container">
+                
+                                            <div id="repeat-clg">
+                                                <div id="clg-details" class="shadow p-5">
+                                                    <div class="form-group">
+                                                        <h5>School</h5>
+                                                        <input placeholder="" name="clg-school[]">
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Course</h5>
+                                                            <input placeholder="" name="clg-course[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Level</h5>
+                                                            <input placeholder="" name="clg-lvl[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Year Completed</h5>
+                                                            <input placeholder="" name="clg-year[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h5>Awards</h5>
+                                                        <input placeholder="" name="clg-awards[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="d-flex justify-content-center pt-4">
+                                                <button type="button" id="addClg" class="btn add-btn">Add More Field</button>
+                                            </div>
+                
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+
+                            <div class="tab col-12">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 form-group">
+                                        <h4 class="text-center">Educational Attainment</h4>
+                                        <h5 class="text-center">( Post Graduate )</h5>
+                                        <div class="container">
+                
+                                            <div id="repeat-pg">
+                                                <div id="pg-details" class="shadow p-5">
+                                                    <div class="form-group">
+                                                        <h5>School</h5>
+                                                        <input placeholder="" name="pg-school[]">
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Course</h5>
+                                                            <input placeholder="" name="pg-course[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Level</h5>
+                                                            <input placeholder="" name="pg-lvl[]">
+                                                        </div>
+                                                        <div class="col-12 col-sm">
+                                                            <h5>Year Completed</h5>
+                                                            <input placeholder="" name="pg-year[]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h5>Awards</h5>
+                                                        <input placeholder="" name="pg-awards[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="d-flex justify-content-center pt-4">
+                                                <button type="button" id="addPg" class="btn add-btn">Add More Field</button>
+                                            </div>
+                
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            
+                            <div style="overflow:auto; padding: 10px" class="col-12">
+                                <div style="float:right;">
+                                    <button type="button" id="prevBtn" class = "btn step-btn" onclick="nextPrev(-1)">Previous</button>
+                                    <button type="button" id="nextBtn" class = "btn step-btn" onclick="nextPrev(1)">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- {% csrf_token %} -->
+                            <button type="submit" class="btn cancel-btn">Cancel Registration</button>
+                        </form>
+                        
+                        
+                    </div>
+
+                </div>
+                <!-- end container-fluid -->
+                
+
+                    
+            </div>
+            <!-- End main content -->
+
+            <!-- Footer -->
+            <footer class="page-footer font-small">
+                <div class="container">
+                    <div class="flex-sb-m flex-w p-t-22 p-b-22">
+                        <div class="txt17" style="color:gray">
+                            Copyright © 2020 All rights reserved | This project is made with <i
+                                class="fa fa-heart"></i> by <a href="#" target="_blank"
+                                style="color:#2fce98">LLANOS</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End content-wrapper -->
+       
+    </div>
+    <!-- End wrapper  -->
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+            {% if "error" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+    <script src="{% static '/js/stepper.js' %}"></script>
+    <script src="{% static '/js/temp.js' %}"></script>
+    
+
+</body>
+</html>
+
+<script>  
+    
+</script> 
