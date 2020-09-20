@@ -8,6 +8,7 @@ from .models import *
 class CustomerIndexView(View):
 	def get(self, request):
 		return render(request, 'customer/index.html')
+
 	def post(self, request):
 		if(request.method == 'POST'):
 			if 'addCustBtn' in request.POST:
@@ -24,6 +25,9 @@ class CustomerRegistrationView(View):
 
 	def post(self, request):
 		if request.method == 'POST':
+			if 'cancelBtn' in request.POST:
+				return redirect('customer:index_view')
+
 			if 'submitBtn' in request.POST:
 				form = CustomerForm(request.POST, request.FILES)
 
@@ -70,6 +74,5 @@ class CustomerRegistrationView(View):
 					print(form.errors)
 					messages.error(request, 'Error!', extra_tags='error')
 					return redirect('customer:registration_view')
-			if 'cancelBtn' in request.POST:
-				return redirect('customer:index_view')
 
+			
