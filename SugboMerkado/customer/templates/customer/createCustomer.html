@@ -457,12 +457,12 @@
                             <div style="overflow:auto; padding: 10px" class="col-12">
                                 <div style="float:right;">
                                     <button type="button" id="prevBtn" class = "btn step-btn" onclick="nextPrev(-1)">Previous</button>
-                                    <button type="button" id="nextBtn" class = "btn step-btn" onclick="nextPrev(1)">Next</button>
+                                    <button type="button" id="nextBtn" class = "btn step-btn" name="" onclick="nextPrev(1)">Next</button>
                                 </div>
                             </div>
 
                             <!-- {% csrf_token %} -->
-                            <button type="submit" class="btn cancel-btn">Cancel Registration</button>
+                            <button type="submit" class="btn cancel-btn" name="cancelBtn" formnovalidate>Cancel Registration</button>
                         </form>
                         
                         
