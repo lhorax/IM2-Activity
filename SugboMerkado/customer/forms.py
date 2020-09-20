@@ -6,6 +6,9 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = (
             'firstname', 
-            'profile_pic',
+            'lastname',
+            'brgy',
+            'prov',
+            'country',
             )
     

@@ -34,7 +34,7 @@ class Person(models.Model):
         db_table = "Person"
 
 class Customer(Person):
-    # emp_id = models.CharField(max_length=50)
+    emp_id = models.AutoField(primary_key=True)
     date_regis = models.DateField(auto_now_add=True)
 
     class Meta:

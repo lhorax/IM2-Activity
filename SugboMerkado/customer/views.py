@@ -30,8 +30,8 @@ class CustomerRegistrationView(View):
 			middlename = request.POST.get("middlename")
 			lastname = request.POST.get("lastname")
 			street = request.POST.get("street")
-			brgy = request.POST.get("barangay")
-			prov = request.POST.get("province")
+			brgy = request.POST.get("brgy")
+			prov = request.POST.get("prov")
 			zp = request.POST.get("zip")
 			country = request.POST.get("country")
 
