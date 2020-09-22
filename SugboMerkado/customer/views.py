@@ -7,7 +7,12 @@ from .models import *
 # Create your views here.
 class CustomerIndexView(View):
 	def get(self, request):
-		return render(request, 'customer/index.html')
+		customers = Customer.objects.all()
+		context = {
+			'customers':customers
+		}
+		# print(customers)
+		return render(request, 'customer/index.html',context)
 	def post(self, request):
 		if(request.method == 'POST'):
 			if 'addCustBtn' in request.POST:
@@ -57,7 +62,7 @@ class CustomerRegistrationView(View):
 
 			form = Customer(firstname = fname, middlename = middlename, lastname = lastname, street = street,
 							brgy = brgy, prov = prov, zp = zp, country = country, birthdate = birthdate, status = status,
-							gender = gender, height = height, weigth = weight, religion = religion, sp_name = sp_name, 
+							gender = gender, height = height, weight = weight, religion = religion, sp_name = sp_name, 
 							sp_job = sp_job, children = children, m_name = m_name, m_job = m_job, f_name = f_name, f_job = f_job,
 							profile_pic = profile_pic)
 

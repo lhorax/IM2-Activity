@@ -123,4 +123,3 @@ $("#addPg").click(function(){
 $("body").on("click","#remove-btn-pg",function(e){
     $(this).parents('#pg-details').remove();
 });
-document.getElementById('datedis').value = new Date().toISOString().substring(0, 10);

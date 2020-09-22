@@ -143,29 +143,29 @@
                                         <div class="container">
                                             <h5>Name</h5>
                                             <div class="row">
-                                                <div class="col-12 col-sm"><input type = "text" placeholder="Firstname" name="firstname" required></div>
+                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Firstname" name="firstname"></div>
                                                 <div class="col-12 col-sm"><input type = "text" placeholder="Middle Name" name="middlename"></div>
-                                                <div class="col-12 col-sm"><input type = "text" placeholder="Lastname" name="lastname" required></div>
+                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Lastname" name="lastname"></div>
                                             </div>
                                             <div class="form-group">
                                                 <h5>Address</h5>
                                                 <!-- <input placeholder="" oninput="this.className = ''" name="address"> -->
                                                 <div class="row">
                                                     <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street"></div>
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy" required></div>
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Province" name="prov" required></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy"></div>
+                                                    <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Province" name="prov"></div>
                                                     <div class="col-12 col-sm"><input type = "text" pattern="[0-9]*" placeholder="Zip Code" name="zip"></div>
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country" required></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country"></div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
-                                                    <h5>Height</h5>
-                                                    <div><input type = "text" pattern="[0-9]*" name="height"></div>
+                                                    <h5>Height(cm)</h5>
+                                                    <div><input type = "number" step="0.01" min="0" name="height" value="0"></div>
                                                 </div>
                                                 <div class="col-12 col-sm">
-                                                    <h5>Weight</h5>
-                                                    <div><input type = "text" pattern="[0-9]*" name="weight"></div>
+                                                    <h5>Weight(kg)</h5>
+                                                    <div><input type = "number" step="0.01"  min="0" name="weight" value="0"></div>
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Religion</h5>
@@ -175,15 +175,15 @@
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Birthdate</h5>
-                                                    <input id="datedis" type = "date" name="birthdate" required>
+                                                    <input id="datedis" class="validate" type = "date" name="birthdate">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Status</h5>
                                                     <select style="width: 100%; height: 47px;" name="status">
-                                                        <option value="single">Single</option>
-                                                        <option value="married">Married</option>
-                                                        <option value="widowed">Widowed</option>
-                                                        <option value="divorced">Divorced</option>
+                                                        <option value="Single">Single</option>
+                                                        <option value="Married">Married</option>
+                                                        <option value="Widowed">Widowed</option>
+                                                        <option value="Divorced">Divorced</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-sm form-group">
@@ -207,27 +207,27 @@
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Father's Name</h5>
-                                                    <input type="text" placeholder="" name="father-name">
+                                                    <input class="validate" type="text" name="father-name">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Occupation</h5>
-                                                    <input type="text" placeholder="" name="father-occupation">
+                                                    <input type="text" name="father-occupation">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Mother's Name</h5>
-                                                    <input type="text" placeholder="" name="mother-name">
+                                                    <input class="validate" type="text" name="mother-name">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Occupation</h5>
-                                                    <input type="text" placeholder="" name="mother-occupation">
+                                                    <input type="text" name="mother-occupation">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Spouce's Name</h5>
-                                                    <input type="text" placeholder="" name="spouse-name">
+                                                    <input type="text" name="spouse-name">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Spouce's Occupation</h5>
@@ -237,7 +237,7 @@
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm-6">
                                                     <h5>Number of Children</h5>
-                                                    <input type="text" pattern="[0-9]*" placeholder="" name="no-of-children">
+                                                    <input type="number" min="0" value="0" name="no-of-children">
                                                 </div>
                                             </div>
                                         </div>

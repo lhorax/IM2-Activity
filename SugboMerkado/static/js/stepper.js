@@ -4,6 +4,13 @@ showTab(currentTab);
 function showTab(n) {
     var x = document.getElementsByClassName("tab");
     x[n].style.display = "block";
+
+    //add require
+    var y = x[currentTab].querySelectorAll('.validate');
+    y.forEach(function (item) { 
+        item.required = true;
+    });
+
     if (n == 0) {
         document.getElementById("prevBtn").style.display = "none";
     } else {
@@ -20,6 +27,7 @@ function showTab(n) {
 
 function nextPrev(n) {
     var myform = $("#regForm")[0];
+    
     if (!myform.checkValidity()) {
         if (myform.reportValidity) {
             myform.reportValidity();
@@ -34,6 +42,7 @@ function nextPrev(n) {
         }
         showTab(currentTab);
     }
+    
 }
 
 
