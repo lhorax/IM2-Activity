@@ -149,7 +149,6 @@
                                             </div>
                                             <div class="form-group">
                                                 <h5>Address</h5>
-                                                <!-- <input placeholder="" oninput="this.className = ''" name="address"> -->
                                                 <div class="row">
                                                     <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street"></div>
                                                     <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy"></div>
@@ -158,6 +157,25 @@
                                                     <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country"></div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <h5>Contact Information</h5>
+                                                <div class="row">
+                                                    <div class = "col-12 col-sm">
+                                                        <div class="d-flex flex-column">
+                                                            <input class="validate" type = "email" placeholder="Email" name="email">
+                                                            <label>Format: abc@mail.com</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm">
+                                                        <div class="d-flex flex-column">
+                                                            <input class="validate" type = "tel" pattern="[0-9]{11}" placeholder="Enter 11 Digit Phone number" name="phone">
+                                                            <label>Format: 09XXXXXXXXX</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Height(cm)</h5>

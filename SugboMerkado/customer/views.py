@@ -60,11 +60,14 @@ class CustomerRegistrationView(View):
 			if request.FILES.get("myPhoto",False) != False:
 				profile_pic = request.FILES['myPhoto'] 
 
+			email = request.POST.get("email")
+			phone = request.POST.get("phone")
+
 			form = Customer(firstname = fname, middlename = middlename, lastname = lastname, street = street,
 							brgy = brgy, prov = prov, zp = zp, country = country, birthdate = birthdate, status = status,
 							gender = gender, height = height, weight = weight, religion = religion, sp_name = sp_name, 
 							sp_job = sp_job, children = children, m_name = m_name, m_job = m_job, f_name = f_name, f_job = f_job,
-							profile_pic = profile_pic)
+							profile_pic = profile_pic, email = email, phone = phone)
 
 			form.save()
 			messages.success(request, 'Customer record saved!', extra_tags='save')

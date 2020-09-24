@@ -28,7 +28,8 @@ class Person(models.Model):
     f_name = models.CharField(max_length=50)
     f_job = models.CharField(max_length=50)
 
-    
+    email = models.EmailField(max_length=50, blank = True)
+    phone = models.CharField(max_length=11, blank = True)
     
     class Meta:
         db_table = "Person"
