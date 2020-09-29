@@ -428,7 +428,12 @@
         <!-- End content-wrapper -->
     </div>
     <!-- End wrapper  -->
-    
+    {% if messages %}
+        {% for message in messages %}
+            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+            {% if "error" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+        {% endfor %}
+    {% endif %}
 	
 
     <!-- bootstrap -->

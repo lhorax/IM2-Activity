@@ -11,14 +11,12 @@ class CustomerIndexView(View):
 		context = {
 			'customers':customers
 		}
-		# print(customers)
 		return render(request, 'customer/index.html',context)
 	def post(self, request):
 		if(request.method == 'POST'):
 			if 'addCustBtn' in request.POST:
 				return redirect('customer:registration_view')
 			if 'btnUpdateCustomer' in request.POST:
-				print('update profile button clicked')
 				sid = request.POST.get("customer-id")
 
 				fname = request.POST.get("firstname")
@@ -61,8 +59,8 @@ class CustomerIndexView(View):
 						update_img.profile_pic.delete()
 					update_img.profile_pic = request.FILES['myPhoto']
 					update_img.save()
-					
-				print('update profile finished')
+				
+				messages.success(request, 'Customer record updated!', extra_tags='save')
 				return redirect('customer:index_view')
 			if 'btnDelete' in request.POST:
 				sid = request.POST.get("customer-id")
@@ -74,6 +72,7 @@ class CustomerIndexView(View):
 				customer = Customer.objects.filter(person_ptr_id = sid).delete()
 				person = Person.objects.filter(id = sid).delete()
 
+				messages.success(request, 'Customer record deleted!', extra_tags='save')
 				return redirect('customer:index_view')
 	
 
