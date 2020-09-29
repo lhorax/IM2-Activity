@@ -18,9 +18,63 @@ class CustomerIndexView(View):
 			if 'addCustBtn' in request.POST:
 				return redirect('customer:registration_view')
 			if 'btnUpdateCustomer' in request.POST:
-				return render(request, 'customer/index.html')
+				print('update profile button clicked')
+				sid = request.POST.get("customer-id")
+
+				fname = request.POST.get("firstname")
+				middlename = request.POST.get("middlename")
+				lastname = request.POST.get("lastname")
+				street = request.POST.get("street")
+				brgy = request.POST.get("brgy")
+				prov = request.POST.get("prov")
+				zp = request.POST.get("zip")
+				country = request.POST.get("country")
+
+				birthdate = request.POST.get("birthdate")
+
+				status = request.POST.get("status")
+				gender = request.POST.get("gender")
+				height = request.POST.get("height")
+				weight = request.POST.get("weight")
+				religion = request.POST.get("religion")
+
+				sp_name = request.POST.get("spouse-name")
+				sp_job = request.POST.get("spouse-occupation")
+				children = request.POST.get("no-of-children")
+				m_name = request.POST.get("mother-name")
+				m_job = request.POST.get("mother-occupation")
+				f_name = request.POST.get("father-name")
+				f_job = request.POST.get("father-occupation")
+
+				email = request.POST.get("email")
+				phone = request.POST.get("phone")
+
+				update_customer = Customer.objects.filter(person_ptr_id = sid).update(firstname = fname, middlename = middlename, lastname = lastname, street = street,
+							brgy = brgy, prov = prov, zp = zp, country = country, birthdate = birthdate, status = status,
+							gender = gender, height = height, weight = weight, religion = religion, sp_name = sp_name, 
+							sp_job = sp_job, children = children, m_name = m_name, m_job = m_job, f_name = f_name, f_job = f_job,
+							email = email, phone = phone)
+				
+				if request.FILES.get("myPhoto",False) != False:
+					update_img = Person.objects.get(id = sid)
+					if update_img.profile_pic != "placeholder.png":
+						update_img.profile_pic.delete()
+					update_img.profile_pic = request.FILES['myPhoto']
+					update_img.save()
+					
+				print('update profile finished')
+				return redirect('customer:index_view')
 			if 'btnDelete' in request.POST:
-				return render(request, 'customer/index.html')
+				sid = request.POST.get("customer-id")
+
+				delete_img = Person.objects.get(id=sid)
+				if delete_img.profile_pic != "placeholder.png":
+					delete_img.profile_pic.delete()
+
+				customer = Customer.objects.filter(person_ptr_id = sid).delete()
+				person = Person.objects.filter(id = sid).delete()
+
+				return redirect('customer:index_view')
 	
 
 class CustomerRegistrationView(View):

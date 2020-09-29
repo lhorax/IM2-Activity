@@ -143,18 +143,18 @@
                                         <div class="container">
                                             <h5>Name</h5>
                                             <div class="row">
-                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Firstname" name="firstname"></div>
-                                                <div class="col-12 col-sm"><input type = "text" placeholder="Middle Name" name="middlename"></div>
-                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Lastname" name="lastname"></div>
+                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Firstname" name="firstname" minlength="0" maxlength="50"></div>
+                                                <div class="col-12 col-sm"><input type = "text" placeholder="Middle Name" name="middlename" minlength="0" maxlength="50"></div>
+                                                <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Lastname" name="lastname" minlength="0" maxlength="50"></div>
                                             </div>
                                             <div class="form-group">
                                                 <h5>Address</h5>
                                                 <div class="row">
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street"></div>
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy"></div>
-                                                    <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Province" name="prov"></div>
-                                                    <div class="col-12 col-sm"><input type = "text" pattern="[0-9]*" placeholder="Zip Code" name="zip"></div>
-                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street" minlength="0" maxlength="50"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy" minlength="0" maxlength="50"></div>
+                                                    <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Province" name="prov" minlength="0" maxlength="50"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" pattern="[0-9]*" placeholder="Zip Code" name="zip" minlength="4" maxlength="6"></div>
+                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country" minlength="0" maxlength="50"></div>
                                                 </div>
                                             </div>
 
@@ -163,7 +163,7 @@
                                                 <div class="row">
                                                     <div class = "col-12 col-sm">
                                                         <div class="d-flex flex-column">
-                                                            <input class="validate" type = "email" placeholder="Email" name="email">
+                                                            <input class="validate" type = "email" placeholder="Email" name="email" minlength="0" maxlength="50">
                                                             <label>Format: abc@mail.com</label>
                                                         </div>
                                                     </div>
@@ -179,15 +179,15 @@
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Height(cm)</h5>
-                                                    <div><input type = "number" step="0.01" min="0" name="height" value="0"></div>
+                                                    <div><input type = "number" step="0.01" min="0" max="999" name="height" value="0"></div>
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Weight(kg)</h5>
-                                                    <div><input type = "number" step="0.01"  min="0" name="weight" value="0"></div>
+                                                    <div><input type = "number" step="0.01"  min="0" max="999" name="weight" value="0"></div>
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Religion</h5>
-                                                    <input type = "text" name="religion">
+                                                    <input type = "text" name="religion" minlength="0" maxlength="50">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -225,37 +225,37 @@
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Father's Name</h5>
-                                                    <input class="validate" type="text" name="father-name">
+                                                    <input class="validate" type="text" name="father-name" minlength="0" maxlength="50">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Occupation</h5>
-                                                    <input type="text" name="father-occupation">
+                                                    <input type="text" name="father-occupation" minlength="0" maxlength="50">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Mother's Name</h5>
-                                                    <input class="validate" type="text" name="mother-name">
+                                                    <input class="validate" type="text" name="mother-name" minlength="0" maxlength="50">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Occupation</h5>
-                                                    <input type="text" name="mother-occupation">
+                                                    <input type="text" name="mother-occupation" minlength="0" maxlength="50">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm">
                                                     <h5>Spouce's Name</h5>
-                                                    <input type="text" name="spouse-name">
+                                                    <input type="text" name="spouse-name" minlength="0" maxlength="50">
                                                 </div>
                                                 <div class="col-12 col-sm">
                                                     <h5>Spouce's Occupation</h5>
-                                                    <input type="text" placeholder="" name="spouse-occupation">
+                                                    <input type="text" placeholder="" name="spouse-occupation" minlength="0" maxlength="50">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-12 col-sm-6">
                                                     <h5>Number of Children</h5>
-                                                    <input type="number" min="0" value="0" name="no-of-children">
+                                                    <input type="number" min="0" max="999" value="0" name="no-of-children">
                                                 </div>
                                             </div>
                                         </div>
@@ -275,21 +275,21 @@
                                                 <div id="elementary-details" class="shadow p-5">
                                                     <div class="form-group">
                                                         <h5>School</h5>
-                                                        <input placeholder="" name="elem-school[]">
+                                                        <input placeholder="" name="elem-school[]" minlength="0" maxlength="50">
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-12 col-sm">
                                                             <h5>Grade</h5>
-                                                            <input placeholder="" name="elem-grade[]">
+                                                            <input placeholder="" name="elem-grade[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Year Completed</h5>
-                                                            <input placeholder="" name="elem-year[]">
+                                                            <input placeholder="" name="elem-year[]" minlength="0" maxlength="50">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <h5>Awards</h5>
-                                                        <input placeholder="" name="elem-awards[]">
+                                                        <input placeholder="" name="elem-awards[]" minlength="0" maxlength="50">
                                                     </div>
                                                 </div>
                                             </div>
@@ -314,21 +314,21 @@
                                                 <div id="jr-details" class="shadow p-5">
                                                     <div class="form-group">
                                                         <h5>School</h5>
-                                                        <input placeholder="" name="jr-school[]">
+                                                        <input placeholder="" name="jr-school[]" minlength="0" maxlength="50">
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-12 col-sm">
                                                             <h5>Grade</h5>
-                                                            <input placeholder="" name="jr-grade[]">
+                                                            <input placeholder="" name="jr-grade[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Year Completed</h5>
-                                                            <input placeholder="" name="jr-year[]">
+                                                            <input placeholder="" name="jr-year[]" minlength="0" maxlength="50">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <h5>Awards</h5>
-                                                        <input placeholder="" name="jr-awards[]">
+                                                        <input placeholder="" name="jr-awards[]" minlength="0" maxlength="50">
                                                     </div>
                                                 </div>
                                             </div>
@@ -353,25 +353,25 @@
                                                 <div id="sr-details" class="shadow p-5">
                                                     <div class="form-group">
                                                         <h5>School</h5>
-                                                        <input placeholder="" name="sr-school[]">
+                                                        <input placeholder="" name="sr-school[]" minlength="0" maxlength="50">
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-12 col-sm">
                                                             <h5>Grade</h5>
-                                                            <input placeholder="" name="sr-grade[]">
+                                                            <input placeholder="" name="sr-grade[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Strand</h5>
-                                                            <input placeholder="" name="sr-strand[]">
+                                                            <input placeholder="" name="sr-strand[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Year Completed</h5>
-                                                            <input placeholder="" name="sr-year[]">
+                                                            <input placeholder="" name="sr-year[]" minlength="0" maxlength="50">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <h5>Awards</h5>
-                                                        <input placeholder="" name="sr-awards[]">
+                                                        <input placeholder="" name="sr-awards[]" minlength="0" maxlength="50">
                                                     </div>
                                                 </div>
                                             </div>
@@ -397,25 +397,25 @@
                                                 <div id="clg-details" class="shadow p-5">
                                                     <div class="form-group">
                                                         <h5>School</h5>
-                                                        <input placeholder="" name="clg-school[]">
+                                                        <input placeholder="" name="clg-school[]" minlength="0" maxlength="50">
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-12 col-sm">
                                                             <h5>Course</h5>
-                                                            <input placeholder="" name="clg-course[]">
+                                                            <input placeholder="" name="clg-course[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Level</h5>
-                                                            <input placeholder="" name="clg-lvl[]">
+                                                            <input placeholder="" name="clg-lvl[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Year Completed</h5>
-                                                            <input placeholder="" name="clg-year[]">
+                                                            <input placeholder="" name="clg-year[]" minlength="0" maxlength="50">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <h5>Awards</h5>
-                                                        <input placeholder="" name="clg-awards[]">
+                                                        <input placeholder="" name="clg-awards[]" minlength="0" maxlength="50">
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,25 +440,25 @@
                                                 <div id="pg-details" class="shadow p-5">
                                                     <div class="form-group">
                                                         <h5>School</h5>
-                                                        <input placeholder="" name="pg-school[]">
+                                                        <input placeholder="" name="pg-school[]" minlength="0" maxlength="50">
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-12 col-sm">
                                                             <h5>Course</h5>
-                                                            <input placeholder="" name="pg-course[]">
+                                                            <input placeholder="" name="pg-course[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Level</h5>
-                                                            <input placeholder="" name="pg-lvl[]">
+                                                            <input placeholder="" name="pg-lvl[]" minlength="0" maxlength="50">
                                                         </div>
                                                         <div class="col-12 col-sm">
                                                             <h5>Year Completed</h5>
-                                                            <input placeholder="" name="pg-year[]">
+                                                            <input placeholder="" name="pg-year[]" minlength="0" maxlength="50">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <h5>Awards</h5>
-                                                        <input placeholder="" name="pg-awards[]">
+                                                        <input placeholder="" name="pg-awards[]" minlength="0" maxlength="50">
                                                     </div>
                                                 </div>
                                             </div>
