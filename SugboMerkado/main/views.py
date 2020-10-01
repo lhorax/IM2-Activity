@@ -3,6 +3,7 @@ from django.views.generic import View, TemplateView
 from django.contrib import messages
 from product.models import *
 from customer.models import *
+from product.forms import *
 
 # Create your views here.
 
