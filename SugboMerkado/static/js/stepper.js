@@ -54,7 +54,7 @@ function fixStepIndicator(n) {
     x[n].className += " active";
 }
 
-function PreviewImage() {
+function PreviewImageRegister() {
     var oFReader = new FileReader();
     oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
 
