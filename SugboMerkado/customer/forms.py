@@ -7,8 +7,5 @@ class CustomerForm(forms.ModelForm):
         fields = (
             'firstname', 
             'lastname',
-            'brgy',
-            'prov',
-            'country',
             )
     

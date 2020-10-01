@@ -74,6 +74,7 @@ $.fn.dataTable.ext.search.push(
 		var end = new Date($('#maxProd').val());
 		end.setHours(0);
 		var filter = new Date(data[0]);
+		console.log(filter);
 		if (start == "Invalid Date" && end == "Invalid Date") { return true; }
 		if (start == "Invalid Date" && filter <= end) { return true;}
 		if(end == "Invalid Date" && filter >= start) {return true;}
@@ -123,4 +124,3 @@ $("#addPg").click(function(){
 $("body").on("click","#remove-btn-pg",function(e){
     $(this).parents('#pg-details').remove();
 });
-document.getElementById('datedis').value = new Date().toISOString().substring(0, 10);

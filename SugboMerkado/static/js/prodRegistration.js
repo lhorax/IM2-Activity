@@ -13,56 +13,86 @@ $(document).ready(function() {
 	var temp = ""+year+"/"+month+"/"+day;
 	document.getElementById("dateRegistered").innerHTML = temp;
 
-	
 });
 
 function PreviewImageProduct(id) {
     var oFReader = new FileReader();
     oFReader.readAsDataURL(document.getElementById(id).files[0]);
-
+    var num = id.split('-')[1];
+    var str = "p-"+num;
     oFReader.onload = function (oFREvent) {
-    	if(id == "image1"){
-    		var img="imgPreview1";
-    	}
-    	else if(id == "image2"){
-    		var img = "imgPreview2";
-    	}
-    	else if(id == "image3"){
-    		var img = "imgPreview3";
-    	}
-        document.getElementById(img).src = oFREvent.target.result;
+        document.getElementById(str).src = oFREvent.target.result;
     };
+    ChangeImage(id);
 };
 
-$("#image1").change(function() {
-	$("#removeImage1").show(); // show remove link
-});
+function ChangeImage(id) {
+	var num = id.split('-')[1];
+	var str = "r-"+num;
+	var btn = document.getElementById(str);
+	btn.style.display = "block";
+};
 
-$("#removeImage1").click(function(e) {
-	e.preventDefault(); // prevent default action of link
-	$("#image1").val(""); // clear image input value
-	document.getElementById("imgPreview1").src = '/static/websiteImgs/placeholder2.png';	
-	$("#removeImage1").toggle(); // hide remove link.
-});	
+function RemoveImage(id,e) {
+	e.preventDefault();
+	var num = id.split('-')[1];
+	var str1 = 'p-'+num;
+	var str2 = 'i-'+num;
+	var img = document.getElementById(str2);
+	document.getElementById(str1).src = '/static/websiteImgs/placeholder2.png';
+	var btn = document.getElementById(id);
+	btn.style.display = 'none';
+	img.value = "";
+};
 
-$("#image2").change(function() {
-	$("#removeImage2").show(); // show remove link
-});
+$(document).ready(function() {
+	
+	var y = document.getElementsByClassName("imgArea");
+	for (var i=0;i<y.length;i++){
+		var k = y[i].children;
+		for(var j=0;j<k.length;j++){
+			if(k[j].id != 'img-container'){
+				if(k.length == 3){	//has only one image; 3 because it counts hidden children
+					k[j].style.display = "block";
+				}
+				else if(k.length == 4){
+					k[j].style.display = "block";break;	
+				}
+			}
+		}
+	}
+	
+	
+	var count = 1, count2=1;
+	var x = document.getElementsByClassName("img-container");
+	for (var i=0;i<x.length;i++){
+		if(x[i].style.display == 'block'){
+			var k = x[i].children;
+			for(var j = 0; j < k.length; j++){
+				if (k[j].classList[0] == "imgPreview"){
+					var str = k[j].classList[0]+count;
+					k[j].classList.replace('imgPreview',str);
+					k[j].id = "p-"+count2;
+				}
+				if (k[j].classList[0] == "image"){
+					var str = k[j].classList[0]+count;
+					k[j].classList.replace('image',str);
+					k[j].name+=count;
+					k[j].id = "i-"+count2;
+				}
+				if (k[j].classList[0] == "removeImage"){
+					var str = k[j].classList[0]+count;
+					k[j].classList.replace('removeImage',str);
+					k[j].id = "r-"+count2;
+				}
+				
+			}
+			count++;
+		    if(count==4){
+		    	count=1;
+		    }
+			count2++;
+		}
+	}
 
-$("#removeImage2").click(function(e) {
-	e.preventDefault(); // prevent default action of link
-	$("#image2").val(""); // clear image input value
-	document.getElementById("imgPreview2").src = '/static/websiteImgs/placeholder2.png';
-	$("#removeImage2").toggle(); // hide remove link.
-});
-
-$("#image3").change(function() {
-	$("#removeImage3").show(); // show remove link
-});
-
-$("#removeImage3").click(function(e) {
-	e.preventDefault(); // prevent default action of link
-	$("#image3").val(""); // clear image input value
-	document.getElementById("imgPreview3").src = '/static/websiteImgs/placeholder2.png';
-	$("#removeImage3").toggle(); // hide remove link.
 });

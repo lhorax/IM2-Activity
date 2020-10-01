@@ -25,3 +25,12 @@
     });
 
 })(jQuery); // End of use strict
+
+function PreviewImage(id) {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("u-"+id).files[0]);
+
+    oFReader.onload = function (oFREvent) {
+        document.getElementById("p-"+id).src = oFREvent.target.result;
+    };
+};

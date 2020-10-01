@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +26,7 @@
     <!-- Custom styles for this template-->
 	<link href="{% static 'css/temp.css' %}" rel="stylesheet">
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/stepper.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -153,8 +153,7 @@
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-<form id="form1" action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
@@ -225,7 +224,10 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Customer Overview</h6>
+                                    <form method="POST">
+                                        {% csrf_token %}
                                     <button type="submit" class="btn btn-primary" name="addCustBtn">Add Customer</button>
+                                    </form>
                                 </div>
                                 
                                 <!-- Card Body -->
@@ -246,28 +248,207 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for customer in customers %}
                                             <tr>
-                                                <td>2020/04/29</td>
-                                                <td>Sebastian</td>
-                                                <td>Cartillo</td>
-                                                <td>31/01/1998</td>
-                                                <td>Simala</td>
+                                                <td>{{ customer.date_regis|date:'F d, Y' }}</td>
+                                                <td>{{ customer.firstname }}</td>
+                                                <td>{{ customer.lastname }}</td>
+                                                <td>{{ customer.birthdate }}</td>
+                                                <td>{{ customer.prov }}</td>
                                                 <td class='text-center'>
-                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editCustomer" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
-                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
+                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editCustomer-{{customer.emp_id}}" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete-{{customer.emp_id}}"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>2020/02/01</td>
-                                                <td>Mananita</td>
-                                                <td>koroki</td>
-                                                <td>26/04/1990</td>
-                                                <td>Simala</td>
-                                                <td class='text-center'>
-                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editCustomer" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
-                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
-                                                </td>
-                                            </tr>
+                                            <!-- Modal View Update-->
+                                            <div id="editCustomer-{{customer.emp_id}}" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" id="regForm">
+                                                    <form  method="POST" autocomplete="off" enctype="multipart/form-data" id="updateForm">
+                                                        {% csrf_token %}
+
+                                                        <div class="modal-content">
+                                                            <div class="container card p-5">
+                                                                <h1 class="text-center mt-4" style="width: 100%;">Customer Profile</h1>    
+                                                                <br>
+                                                                <div class="col-12 shadow pt-5">
+                                                                    <input type="text" name="customer-id" value = {{customer.id}} hidden>
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-sm-4 d-flex flex-column form-group">
+                                                                            <h5 class="text-center">Profile Picture</h5>
+                                                                            <div class="form-group">
+                                                                                <img class="uploadPreview" id="p-{{ customer.id }}" src="{{ MEDIA_URL }}images/{{ customer.profile_pic }}"/>
+                                                                                <input class="uploadImage" id="u-{{ customer.id }}" type="file" name="myPhoto" onchange="PreviewImage( {{customer.id}} );" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-8 form-group">
+                                                                            <h4 class="text-center">General Information</h4>
+                                                                            <div class="container">
+                                                                                <h5>Name</h5>
+                                                                                <div class="row">
+                                                                                    <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Firstname" name="firstname" value="{{ customer.firstname }}" minlength="0" maxlength="50"></div>
+                                                                                    <div class="col-12 col-sm"><input type = "text" placeholder="Middle Name" name="middlename" value="{{ customer.middlename }}" minlength="0" maxlength="50"></div>
+                                                                                    <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Lastname" name="lastname" value="{{ customer.lastname }}" minlength="0" maxlength="50"></div>
+                                                                                </div>
+                                                                                <div class="form-group pt-3">
+                                                                                    <h5>Address</h5>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12 col-sm"><input type = "text" placeholder="Street" name="street" value="{{ customer.street }}" minlength="0" maxlength="50"></div>
+                                                                                        <div class="col-12 col-sm"><input type = "text" placeholder="Barangay" name="brgy" value="{{ customer.brgy }}" minlength="0" maxlength="50"></div>
+                                                                                    </div>
+                                                                                    <div class="row pt-3">
+                                                                                        <div class="col-12 col-sm"><input class="validate" type = "text" placeholder="Province" name="prov" value="{{ customer.prov }}" minlength="0" maxlength="50"></div>
+                                                                                        <div class="col-12 col-sm"><input type = "text" pattern="[0-9]*" placeholder="Zip Code" name="zip" value="{{ customer.zp }}" minlength="4" maxlength="6"></div>
+                                                                                    </div>
+                                                                                    <div class="row pt-3">
+                                                                                        <div class="col-sm"></div>
+                                                                                        <div class="col-12 col-sm"><input type = "text" placeholder="Country" name="country" value="{{ customer.country }}" minlength="0" maxlength="50"></div>
+                                                                                        <div class="col-sm"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <h5>Contact Information</h5>
+                                                                                    <div class="row">
+                                                                                        <div class = "col-12 col-sm">
+                                                                                            <div class="d-flex flex-column">
+                                                                                                <input class="validate" type = "email" placeholder="Email" name="email" value="{{ customer.email}}" minlength="0" maxlength="50">
+                                                                                                <label>Format: abc@mail.com</label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-12 col-sm">
+                                                                                            <div class="d-flex flex-column">
+                                                                                                <input class="validate" type = "tel" pattern="[0-9]{11}" placeholder="Enter 11 Digit Phone number" name="phone" value="{{ customer.phone }}">
+                                                                                                <label>Format: 09XXXXXXXXX</label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Height (cm)</h5>
+                                                                                        <div><input type = "number" step="0.01" min="0" max="999" name="height" value="{{ customer.height }}"></div>
+                                                                                    </div>
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Weight (kg)</h5>
+                                                                                        <div><input type = "number" step="0.01"  min="0" max="999" name="weight" value="{{ customer.weight }}"></div>
+                                                                                    </div>
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Religion</h5>
+                                                                                        <input type = "text" name="religion" value="{{ customer.religion }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Birthdate</h5>
+                                                                                        <div>
+                                                                                            <input class="validate" type = "date" name="birthdate" value="{{ customer.birthdate|date:'Y-m-d' }}">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Status</h5>
+                                                                                        <select style="width: 100%; height: 47px;" name="status">
+                                                                                            <option value="{{ customer.status }}" selected hidden> {{ customer.status }}</option>
+                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Married">Married</option>
+                                                                                            <option value="Widowed">Widowed</option>
+                                                                                            <option value="Divorced">Divorced</option>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                    <div class="col-12 col-sm form-group">
+                                                                                        <h5>Gender</h5>
+                                                                                        <select style="width: 100%; height: 47px;" name="gender">
+                                                                                            <option value="{{ customer.gender }}" selected hidden> {{ customer.gender }}</option>
+                                                                                            <option value="Male">Male</option>
+                                                                                            <option value="Female">Female</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-12  shadow mt-5">
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-sm-12 form-group pt-3">
+                                                                            <h4 class="text-center">Family Background</h4>
+                                                                            <div class="container">
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Father's Name</h5>
+                                                                                        <input class="validate" type="text" name="father-name" value="{{ customer.f_name}}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Occupation</h5>
+                                                                                        <input type="text" name="father-occupation" value="{{ customer.f_job }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Mother's Name</h5>
+                                                                                        <input class="validate" type="text" name="mother-name" value="{{ customer.m_name }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Occupation</h5>
+                                                                                        <input type="text" name="mother-occupation" value="{{ customer.m_job }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Spouce's Name</h5>
+                                                                                        <input type="text" name="spouse-name" value="{{ customer.sp_name }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                    <div class="col-12 col-sm">
+                                                                                        <h5>Spouce's Occupation</h5>
+                                                                                        <input type="text" name="spouse-occupation" value="{{ customer.sp_job }}" minlength="0" maxlength="50">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group">
+                                                                                    <div class="col-12 col-sm-6">
+                                                                                        <h5>Number of Children</h5>
+                                                                                        <input type="number" min="0" max="999" name="no-of-children" value="{{ customer.children }}" >
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer col-12">
+                                                                    <div class="d-flex" style="float:right;">
+                                                                        <input type="submit" name="btnUpdateCustomer" class="btn btn-default" id="updateBtn" Value="UPDATE">
+                                                                        <input type="button" class="btn btn-default" id="closeBtn" Value="CLOSE" data-dismiss="modal"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Modal delete -->
+                                            <div class="modal fade" id="delete-{{customer.emp_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form method="POST">
+                                                            {% csrf_token %}
+                                                            <input type="text" name="customer-id" value = {{customer.id}} hidden>
+                                                            <div class="modal-body">
+                                                                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+                                                            </div>
+                                                            <div class="modal-footer ">
+                                                                <div class="d-flex" style="float:right;">
+                                                                <input type="submit" name="btnCustDelete" class="btn btn-default deleteBtns" id="deleteBtn" Value="YES">
+                                                                <input type="button" class="btn btn-default" Value="NO" data-dismiss="modal"/>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
                                         </tbody>
                                         <tfoot class='text-center'>
                                             <tr>
@@ -317,7 +498,10 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Product Overview</h6>
+                                    <form method="POST">
+                                        {% csrf_token %}
                                     <button type="submit" class="btn btn-primary" name="addProdBtn">Add Product</button>
+                                    </form>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -329,6 +513,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Date Registered</th>
+                                                <th>SKU</th>
                                                 <th>Category</th>
                                                 <th>Brand</th>
                                                 <th>Name</th>
@@ -338,34 +523,110 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for product in products %}
                                             <tr>
-                                                <td>2011/04/25</td>
-                                                <td>School Supplies</td>
-                                                <td>Monggol</td>
-                                                <td>Pencil</td>
-                                                <td>8.50</td>
-                                                <td>100 pcs</td>
+                                                <td>{{product.dateRegistered|date:'F d, Y'}}</td>
+                                                <td>{{product.sku}}</td>
+                                                <td>{{product.category}}</td>
+                                                <td>{{product.brand}}</td>
+                                                <td>{{product.name}}</td>
+                                                <td>{{product.unitPrice|floatformat:2|intcomma}}</td>
+                                                <td>{{product.quantity}} </td>
                                                 <td class='text-center'>
-                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editProduct" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
-                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
+                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editProduct-{{product.id}}" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete-{{product.id}}"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>2011/04/25</td>
-                                                <td>School Supplies</td>
-                                                <td>Fiber Castel</td>
-                                                <td>Eraser</td>
-                                                <td>18.50</td>
-                                                <td>60 pcs</td>
-                                                <td class='text-center'>
-                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editProduct" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
-                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
-                                                </td>
-                                            </tr>
+                                            <div id="editProduct-{{product.id}}" class="modal fade" role="dialog" tabindex="-1">
+                                              <div class="modal-dialog">
+
+                                                <div class="modal-content">
+                                                    
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <form name="form1" id="form1" method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}    
+                                                    <div class="modal-body">
+                                                        <input type="text" name='prodID' value="{{product.id}}" hidden>
+                                                      Category : <select name="pCategory" id='category' class='form-control'>
+                                                                    <option {% if product.category == 'Unisex' %}selected{%endif%} name='unisex'>Unisex</option>
+                                                                    <option {% if product.category == 'Women' %}selected{%endif%} name='Women'>Women</option>
+                                                                    <option {% if product.category == 'Men' %}selected{%endif%} name='Men'>Men</option>
+                                                                </select><br>
+                                                      Brand : <input type='text' name='pBrand' id='brand' class='form-control' maxlength="50" placeholder='Brand Name' value='{{product.brand}}'><br>
+                                                      Name : <input type='text' name='pName' id='pName' class='form-control' maxlength="50" placeholder='Product Name' value='{{product.name}}'><br>
+                                                      Color : <input type='text' name='pColor' id='pColor' class='form-control' placeholder='Product Color' value='{{product.color}}'><br>
+                                                      Size/Dimensions : <input type='text' name='pSize' id='pSize' class='form-control' placeholder='Product Size' pattern="\d.{0,}\s[x|X]\s\d.{0,}[in|inches]" title='e.g. 16 x 24 in' value='{{product.size}}'><br>
+                                                      Unit Price : <input type="number" name="unitPrice" id='price' min="0.00" max="999999.99" step="0.01" title="Max price is Php 999,999.99" class='form-control' placeholder='Php 0.00' value='{{product.unitPrice}}'><br>
+                                                      Quantity : <input type='number' name='qty' id='qty' min="1" max="9999" title="Max quantity is 9,999 units" class='form-control' placeholder='1' value='{{product.quantity}}'><br>
+                                                      Images : 
+                                                        <div class='form-group row images-box'>
+                                                            <label for='image' class='col-sm col-form-label d-flex imgArea' id="imgArea">
+                                                                {% for img in product.ProductImages %}
+                                                                <div class='col-sm img-container' id='img-container' style="display:block;position: relative;">
+                                                                    <input type='text' name='imgID' value='{{img.id}}' hidden>
+                                                                    <img class="imgPreview" id="" src="/static{{img.productImage.url}}"/>
+
+                                                                    <input type='file' name='productImage' class='image mt-2 form-control ' accept="image/*" id="" onchange="PreviewImageProduct(this.id)">
+
+                                                                    <a style="display:none;color:#ef476f" class='removeImage pr-2 ' id="" href="#" onclick="RemoveImage(this.id,event)">X</a>
+                                                                </div>
+                                                                {% endfor %}
+                                                                <div class='col-sm img-container' id='tempImg-{{product.id}}-2' style="display:none;position: relative;">
+                                                                    <img class="imgPreview" id="" src="/static/websiteImgs/placeholder2.png"/>
+
+                                                                    <input type='file' name='productImage' class='image mt-2 form-control ' accept="image/*" id="" onchange="PreviewImageProduct(this.id)">
+
+                                                                    <a style="display:none;color:#ef476f" class='removeImage pr-2 ' id="" href="#" onclick="RemoveImage(this.id,event)">X</a>
+                                                                </div>
+                                                                <div class='col-sm img-container' id='tempImg-{{product.id}}-3' style="display:none;position: relative;">
+                                                                    <img class="imgPreview" id="" src="/static/websiteImgs/placeholder2.png"/>
+
+                                                                    <input type='file' name='productImage' class='image mt-2 form-control ' accept="image/*" id="" onchange="PreviewImageProduct(this.id)">
+
+                                                                    <a style="display:none;color:#ef476f" class='removeImage pr-2 ' id="" href="#" onclick="RemoveImage(this.id,event)">X</a>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                      <div class="modal-footer">
+                                                        <div class="d-flex" style="float:right;">
+                                                        <input type="submit" name="btnUpdateProduct" class="btn btn-default" id="updateBtn" Value="UPDATE">
+                                                        <input type="button" class="btn btn-default" Value="CLOSE" data-dismiss="modal"/>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            
+                                            <div class="modal fade" id="delete-{{product.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this record?</div>
+                                                    </div>
+                                                    <form name="form2" id="form2" method="POST">
+                                                        {% csrf_token %}    
+                                                        <div class="modal-footer ">
+                                                            <div class="d-flex" style="float:right;">
+                                                            <input type="text" name="pprodID" value="{{product.id}}" hidden>
+                                                            <input type="submit" name="btnProdDelete" class="btn btn-default" id="deleteBtn" Value="YES">
+                                                            <input type="button" class="btn btn-default" Value="NO" data-dismiss="modal"/>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            {% endfor %}
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>Date Registered</th>
+                                                <th>SKU</th>
                                                 <th>Category</th>
                                                 <th>Brand</th>
                                                 <th>Name</th>
@@ -382,9 +643,6 @@
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
-
-
 
                 <!-- Footer -->
                 <footer class="page-footer font-small">
@@ -409,415 +667,11 @@
     </div>
     <!-- End wrapper  -->
 	
-	<div id="editCustomer" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" id="regForm">
-                <div class="modal-content">
-                    <div class="container card p-5">
-
-                            <h1 class="text-center mt-4" style="width: 100%;">Customer Profile</h1>    
-                            <!-- One "tab" for each step in the form: -->
-                            <br>
-                            <div class="col-12 shadow pt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-4 d-flex flex-column form-group">
-                                        <h5 class="text-center">Profile Picture</h5>
-                                        <div class="form-group">
-                                            <img id="uploadPreview" src="{% static '/websiteImgs/placeholder.png' %}"/>
-                                            <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-8 form-group">
-                                        <h4 class="text-center">General Information</h4>
-                                        <div class="container">
-                                            <h5>Name</h5>
-                                            <div class="row">
-                                                <div class="col-12 col-sm"><input placeholder="Firstname" oninput="this.className = ''" name="fname" value="Erich"></div>
-                                                <div class="col-12 col-sm"><input placeholder="Middle Name" oninput="this.className = ''" name="mname" value="Marie"></div>
-                                                <div class="col-12 col-sm"><input placeholder="Lastname" oninput="this.className = ''" name="lname" value="Bona"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <h5>Address</h5>
-                                                <input placeholder="" oninput="this.className = ''" name="address" value="Simala, Sibonga, Cebu">
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm">
-                                                    <h5>Height (cm)</h5>
-                                                    <div><input placeholder="" oninput="this.className = ''" name="height" value="166"></div>
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Weight (kg)</h5>
-                                                    <div><input placeholder="" oninput="this.className = ''" name="weight" value="60"></div>
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Religion</h5>
-                                                    <input placeholder="" oninput="this.className = ''" name="religion" value="Roman Catholic">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm">
-                                                    <h5>Birthdate</h5>
-                                                    <div><input type = "date"placeholder="" oninput="this.className = ''" name="birthdate" id="datedis"></div>
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Status</h5>
-                                                    <select style="width: 100%; height: 47px;" name="status">
-                                                        <option value="single">Single</option>
-                                                        <option value="married">Married</option>
-                                                        <option value="widowed">Widowed</option>
-                                                        <option value="divorced">Divorced</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-sm form-group">
-                                                    <h5>Gender</h5>
-                                                    <select style="width: 100%; height: 47px;" name="gender">
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-12  shadow mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group pt-3">
-                                        <h4 class="text-center">Family Background</h4>
-                                        <div class="container">
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm">
-                                                    <h5>Father's Name</h5>
-                                                    <input placeholder="" name="father-name" value="Ben Bona">
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Occupation</h5>
-                                                    <input placeholder="" name="father-occupation" value="Carpenter">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm">
-                                                    <h5>Mother's Name</h5>
-                                                    <input placeholder="" name="mother-name" value="Maria Bona">
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Occupation</h5>
-                                                    <input placeholder="" name="mother-occupation" value="Model">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm">
-                                                    <h5>Spouce's Name</h5>
-                                                    <input placeholder="" name="spouse-name" value="Matilda Bona">
-                                                </div>
-                                                <div class="col-12 col-sm">
-                                                    <h5>Spouce's Occupation</h5>
-                                                    <input placeholder="" name="spouse-occupation" value="Real Estate Broker">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-sm-6">
-                                                    <h5>Number of Children</h5>
-                                                    <input placeholder="" name="no-of-children" value="2">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                
-                            <div class="col-12 mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group">
-                                        <h4 class="text-center">Educational Attainment</h4>
-                                        <h5 class="text-center">( Elementary Years )</h5>
-                                        <div class="container">
-                
-                                            <div id="repeat-elementary">
-                                                <div id="elementary-details" class="shadow p-5">
-                                                    <div class="form-group">
-                                                        <h5>School</h5>
-                                                        <input placeholder="" name="elem-school[]" value="Simala Elementary School">
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Grade</h5>
-                                                            <input placeholder="" name="elem-grade[]" value="1-6">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Year Completed</h5>
-                                                            <input placeholder="" name="elem-year[]" value="2012">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h5>Awards</h5>
-                                                        <input placeholder="" name="elem-awards[]" value="Prefer not to say">
-                                                    </div>
-                                                </div>
-                                            </div>
-                
-                                            <div class="d-flex justify-content-center pt-4">
-                                                <button type="button" id="addElementary" class="btn btn-success">Add More Field</button>
-                                            </div>
-                
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                
-                            <div class="col-12 mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group">
-                                        <h4 class="text-center">Educational Attainment</h4>
-                                        <h5 class="text-center">( Junior Years )</h5>
-                                        <div class="container">
-                
-                                            <div id="repeat-jr">
-                                                <div id="jr-details" class="shadow p-5">
-                                                    <div class="form-group">
-                                                        <h5>School</h5>
-                                                        <input placeholder="" name="jr-school[]" value="Simala National High School">
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Grade</h5>
-                                                            <input placeholder="" name="jr-grade[]" value="7-10">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Year Completed</h5>
-                                                            <input placeholder="" name="jr-year[]" value="2016">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h5>Awards</h5>
-                                                        <input placeholder="" name="jr-awards[]" value="Prefer not to say">
-                                                    </div>
-                                                </div>
-                                            </div>
-                
-                                            <div class="d-flex justify-content-center pt-4">
-                                                <button type="button" id="addJr" class="btn btn-success">Add More Field</button>
-                                            </div>
-                
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                            
-                            <div class="col-12 mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group">
-                                        <h4 class="text-center">Educational Attainment</h4>
-                                        <h5 class="text-center">( Senior Years )</h5>
-                                        <div class="container">
-                
-                                            <div id="repeat-sr">
-                                                <div id="sr-details" class="shadow p-5">
-                                                    <div class="form-group">
-                                                        <h5>School</h5>
-                                                        <input placeholder="" name="sr-school[]" value="CIT-U">
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Grade</h5>
-                                                            <input placeholder="" name="sr-grade[]" value="11-12">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Strand</h5>
-                                                            <input placeholder="" name="sr-strand[]" value="STEM">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Year Completed</h5>
-                                                            <input placeholder="" name="sr-year[]" value="2018">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h5>Awards</h5>
-                                                        <input placeholder="" name="sr-awards[]" value="Prefer not to say">
-                                                    </div>
-                                                </div>
-                                            </div>
-                
-                                            <div class="d-flex justify-content-center pt-4">
-                                                <button type="button" id="addSr" class="btn btn-success">Add More Field</button>
-                                            </div>
-                
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                
-                
-                            <div class="col-12 mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group">
-                                        <h4 class="text-center">Educational Attainment</h4>
-                                        <h5 class="text-center">( College Years )</h5>
-                                        <div class="container">
-                
-                                            <div id="repeat-clg">
-                                                <div id="clg-details" class="shadow p-5">
-                                                    <div class="form-group">
-                                                        <h5>School</h5>
-                                                        <input placeholder="" name="clg-school[]" value="CIT-U">
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Course</h5>
-                                                            <input placeholder="" name="clg-course[]" value="BSCS">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Level</h5>
-                                                            <input placeholder="" name="clg-lvl[]" value="3">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Year Completed</h5>
-                                                            <input placeholder="" name="clg-year[]" value="ongoing">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h5>Awards</h5>
-                                                        <input placeholder="" name="clg-awards[]" value="Prefer not to say">
-                                                    </div>
-                                                </div>
-                                            </div>
-                
-                                            <div class="d-flex justify-content-center pt-4">
-                                                <button type="button" id="addClg" class="btn btn-success">Add More Field</button>
-                                            </div>
-                
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                
-                            <div class="col-12 mt-5">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 form-group">
-                                        <h4 class="text-center">Educational Attainment</h4>
-                                        <h5 class="text-center">( Post Graduate )</h5>
-                                        <div class="container">
-                
-                                            <div id="repeat-pg">
-                                                <div id="pg-details" class="shadow p-5">
-                                                    <div class="form-group">
-                                                        <h5>School</h5>
-                                                        <input placeholder="" name="pg-school[]" value="N/A">
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Course</h5>
-                                                            <input placeholder="" name="pg-course[]" value="N/A">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Level</h5>
-                                                            <input placeholder="" name="pg-lvl[]" value="N/A">
-                                                        </div>
-                                                        <div class="col-12 col-sm">
-                                                            <h5>Year Completed</h5>
-                                                            <input placeholder="" name="pg-year[]" value="N/A">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h5>Awards</h5>
-                                                        <input placeholder="" name="pg-awards[]" value="N/A">
-                                                    </div>
-                                                </div>
-                                            </div>
-                
-                                            <div class="d-flex justify-content-center pt-4">
-                                                <button type="button" id="addPg" class="btn btn-success">Add More Field</button>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-
-                            <div class="modal-footer col-12">
-                                <div class="d-flex" style="float:right;">
-                                    <!-- <div > -->
-                                        <!--<input id="updateBtn" type="submit" class="btn btn-default updateBtns ml-2" Value="UPDATE">-->
-                                        <input type="submit" name="btnUpdateCustomer" class="btn btn-default" id="updateBtn" Value="UPDATE">
-                                        <input type="button" class="btn btn-default" id="closeBtn" Value="CLOSE" data-dismiss="modal"/>
-                                    <!-- </div> -->
-                                </div>
-                            </div>
-                    </div>
-                    
-                </div>
-                
-            </div>
-        </div>
-	
-	<div id="editProduct" class="modal fade" role="dialog" tabindex="-1">
-	  <div class="modal-dialog">
-
-		<div class="modal-content">
-			
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<div class="modal-body">
-
-                Category : 
-                <select name="category" id='category' class='form-control'>
-                    <option name='unisex'>Unisex</option>
-                    <option name='Women'>Women</option>
-                    <option name='Men'>Men</option>
-                </select><br>
-                Brand : <input type='text' name='brand' id='brand' class='form-control' placeholder="Brand Name"><br>
-                Name : <input type='text' name='pName' id='pName' class='form-control' placeholder="Product Name"><br>
-                Unit Price : <input type="number" name="unitPrice" id='price' min="0.00" step="0.01" class='form-control' placeholder='Php 0.00'><br>
-                Quantity : <input type='number' name='qty' id='qty' min="1" class='form-control' placeholder='1'><br>
-                Images :
-                <div class='form-group row'>
-                    <label for='image' class='col-sm col-form-label d-flex'>
-                        <div class='col-sm' style="position: relative;">
-                            <img id="imgPreview1" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                            <input type='file' name='productImage' id='image1' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)">
-                            <a style="display:none; color:#ef476f" class='pr-2' id="removeImage1" href="#">X</a>
-                        </div>
-                        <div class="col-sm">
-                            <img id="imgPreview2" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                            <input type='file' name='productImage2' id='image2' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)">
-                            <a style="display:none; color:#ef476f" class='pr-2' id="removeImage2" href="#">X</a>
-                        </div>
-                        <div class="col-sm">
-                            <img id="imgPreview3" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                            <input type='file' name='productImage3' id='image3' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)">
-                            <a style="display:none; color:#ef476f" class='pr-2' id="removeImage3" href="#">X</a>
-                        </div>
-                    </label>
-                </div>
-                <div class="modal-footer">
-                <input type="submit" name="btnUpdateProduct" class="btn btn-default" id="updateBtn" Value="UPDATE">
-                <input type="button" class="btn btn-default" Value="CLOSE" data-dismiss="modal"/>
-                </div>
-			
-            </div>
-		</div>
-
-	  </div>
-	</div>
-    
-	<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                
-                <div class="modal-body">
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
-                </div>
-                <div class="modal-footer ">
-                    <input type="submit" name="btnDelete" class="btn btn-default" id="deleteBtn" Value="YES">
-                    <input type="button" class="btn btn-default" Value="NO" data-dismiss="modal"/>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
-</form>
+	{% if messages %}
+        {% for message in messages %}
+            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+        {% endfor %}
+    {% endif %}
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -841,6 +695,7 @@
     <script src="{% static 'js/chartCustomer.js' %}"></script>
     <script src="{% static 'js/chartProduct.js' %}"></script>
     <script src="{% static 'js/stepper.js' %}"></script>
+    <script src="{% static 'js/addRequire.js' %}"></script>
     <script src="{% static 'js/prodRegistration.js' %}"></script>
 
 

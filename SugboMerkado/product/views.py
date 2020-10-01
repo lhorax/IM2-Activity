@@ -9,16 +9,77 @@ from .forms import *
 
 class ProductIndexView(View):
 	def get(self, request):
-		return render(request, 'product/product.html')
+		qsproducts = Product.objects.all();
+		
+		for prod in qsproducts:
+			prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
+
+		context = {
+			'products':qsproducts
+		}
+
+		return render(request, 'product/product.html',context)
 
 	def post(self,request):
 		if(request.method == 'POST'):
 			if 'addProdBtn' in request.POST:
 				return redirect('product:registration_view')
+
 			if 'btnUpdateProduct' in request.POST:
-				return render(request, 'product/product.html')
-			if 'btnDelete' in request.POST:
-				return render(request, 'product/product.html')
+				prodId = request.POST.get('prodID')
+				category = request.POST['pCategory']
+				name = request.POST.get('pName')
+				brand = request.POST.get('pBrand')
+				color = request.POST.get('pColor')
+				size = request.POST.get('pSize')
+				unitPrice = request.POST.get('unitPrice')
+				quantity = request.POST.get('qty')
+				update_product = Product.objects.filter(id = prodId).update(category = category, name = name, brand = brand, color = color, size = size, unitPrice = unitPrice, quantity = quantity)
+				
+				imgIds = request.POST.getlist('imgID')
+				count = 0
+				for x in imgIds:
+					count = count+1
+
+				if request.FILES.get('productImage1',False) != False:
+					update_img = ProductImages.objects.get(id = imgIds[0])
+					update_img.productImage.delete()
+					update_img.productImage = request.FILES['productImage1']
+					update_img.save()
+
+				if request.FILES.get('productImage2',False) != False:
+					if(count == 2):
+						update_img = ProductImages.objects.get(id = imgIds[1])
+						update_img.productImage.delete()
+						update_img.productImage = request.FILES['productImage2']
+						update_img.save()
+					else:
+						form = ProductImagesForm(request.POST, request.FILES)
+						productImage = request.FILES['productImage2']
+						form = ProductImages(product = Product.objects.get(id = prodId), productImage=productImage)
+						form.save()
+				if request.FILES.get('productImage3',False) != False:
+					if(count == 3):
+						update_img = ProductImages.objects.get(id = imgIds[2])
+						update_img.productImage.delete()
+						update_img.productImage = request.FILES['productImage3']
+						update_img.save()
+					else:
+						form = ProductImagesForm(request.POST, request.FILES)
+						productImage = request.FILES['productImage3']
+						form = ProductImages(product = Product.objects.get(id = prodId), productImage=productImage)
+						form.save()
+				messages.success(request, 'Product record updated!', extra_tags='save')
+
+			elif 'btnDelete' in request.POST:
+				prodId = request.POST.get('pprodID')
+				delete_imgs = ProductImages.objects.filter(product_id = prodId)
+				for img in delete_imgs:
+					img.delete()
+				delete_product = Product.objects.get(id = prodId).delete()
+				messages.success(request, 'Product record deleted!', extra_tags='save')
+
+			return redirect('product:index_view')
 
 class ProductRegistrationView(View):
 	

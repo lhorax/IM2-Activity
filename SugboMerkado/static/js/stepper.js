@@ -4,6 +4,13 @@ showTab(currentTab);
 function showTab(n) {
     var x = document.getElementsByClassName("tab");
     x[n].style.display = "block";
+
+    //add require
+    var y = x[currentTab].querySelectorAll('.validate');
+    y.forEach(function (item) { 
+        item.required = true;
+    });
+    
     if (n == 0) {
         document.getElementById("prevBtn").style.display = "none";
     } else {
@@ -46,7 +53,7 @@ function fixStepIndicator(n) {
     x[n].className += " active";
 }
 
-function PreviewImage() {
+function PreviewImageRegister() {
     var oFReader = new FileReader();
     oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
 

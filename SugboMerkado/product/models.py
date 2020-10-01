@@ -10,7 +10,7 @@ class Product(models.Model):
 	name = models.CharField(max_length = 50, null = False, blank = False)
 	brand = models.CharField(max_length = 50)
 	color = models.CharField(max_length = 50)
-	size = models.CharField(max_length = 10)
+	size = models.CharField(max_length = 25)
 	unitPrice = models.FloatField()
 	quantity = models.IntegerField()
 
@@ -24,5 +24,7 @@ class ProductImages(models.Model):
 	class Meta:
 		db_table = "Product_Images"
 
-
+	def delete(self, *args, **kwargs):
+		self.productImage.delete()
+		super().delete(*args, **kwargs)
 
