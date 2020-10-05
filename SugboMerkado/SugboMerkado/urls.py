@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include('landingpage.urls', namespace='landingpage')),
     path('main/', include('main.urls', namespace='main')),
     path('product/', include('product.urls', namespace='product')),
-    path('customer/', include('customer.urls', namespace='customer'))
+    path('customer/', include('customer.urls', namespace='customer')),
+    path('buy/', include('buy.urls', namespace='buy'))
 ]

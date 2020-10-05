@@ -16,13 +16,6 @@ function showTab(n) {
     } else {
         document.getElementById("prevBtn").style.display = "inline";
     }
-    if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
-        document.getElementById("nextBtn").setAttribute("name","submitBtn");
-        document.getElementById("nextBtn").setAttribute("type","submit");
-    } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
-    }
     fixStepIndicator(n)
 }
 
@@ -34,13 +27,23 @@ function nextPrev(n) {
         } 
     }else{
         var x = document.getElementsByClassName("tab");
-        x[currentTab].style.display = "none";
-        currentTab = currentTab + n;
-        if (currentTab >= x.length) {
-            document.getElementById("regForm").submit();
-            return false;
+        if(currentTab < x.length - 1){
+            
+            x[currentTab].style.display = "none";
+            currentTab = currentTab + n;
+            showTab(currentTab);
+
+            if (currentTab  == (x.length-1)) {
+                document.getElementById("nextBtn").innerHTML = "Submit";
+                document.getElementById("nextBtn").setAttribute("name","submitBtn");
+                document.getElementById("nextBtn").setAttribute("type","submit");
+                //cancelling submit event as changing the type of the active clicked button will also change the click event
+                event.preventDefault();
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+                document.getElementById("nextBtn").setAttribute("type","button");
+            }
         }
-        showTab(currentTab);
     }
 }
 

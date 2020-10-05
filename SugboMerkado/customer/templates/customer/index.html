@@ -199,8 +199,15 @@
                                                 <td>{{ customer.birthdate }}</td>
                                                 <td>{{ customer.prov }}</td>
                                                 <td class='text-center'>
-                                                    <span data-title="ViewProduct" data-toggle="modal" data-target="#editCustomer-{{customer.emp_id}}" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
-                                                    <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete-{{customer.emp_id}}"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a><span>
+                                                    <form method="POST">
+                                                        {% csrf_token %}
+                                                        <span data-title="ViewProduct" data-toggle="modal" data-target="#editCustomer-{{customer.emp_id}}" ><a data-placement="top" data-toggle="tooltip" title="View" type="button" ><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+                                                        <span data-title="DeleteCustomer" data-toggle="modal" data-target="#delete-{{customer.emp_id}}"><a data-placement="top" data-toggle="tooltip" title="Delete" type="button"><i class="fas fa-trash-alt" aria-hidden='true'></i></a></span>
+                                                        <span>
+                                                            <input type="text" name="customer-id" value = {{customer.id}} hidden>
+                                                            <button type="submit" name="customerBuy" style="display: contents;"><a><i class="fas fa-shopping-cart"></i></a></button>
+                                                        </span>
+                                                    </form>
                                                 </td>
                                             </tr>
                                             <!-- Modal View Update-->
