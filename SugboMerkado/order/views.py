@@ -33,6 +33,7 @@ class OrderIndexView(View):
                 prodId = request.POST.get('prodID')
                 if not prodId in list:
                     list.append(prodId)
+                messages.success(request, 'added successful!', extra_tags='toast')
                 return redirect('order:index_view')
             if 'cancelPurchaseBtn' in request.POST:
                 list.clear()
@@ -45,7 +46,7 @@ class OrderListView(View):
     def get(self, request):
         cid = request.session.get('cid')
         qsproducts = []
-        count = 1;
+        count = 1
         for x in list:
             if count != 1:
                 qsproducts.append(Product.objects.get(id = x))
@@ -79,7 +80,8 @@ class OrderListView(View):
 
                 i = i+1
             list.clear()
-            return redirect('order:cart_view')
+            messages.success(request, 'Purchase successful!', extra_tags='save')
+            return redirect('order:index_view')
 
         if 'removeItem' in request.POST:
             item = request.POST.get('removeItem')

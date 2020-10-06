@@ -169,20 +169,20 @@
                                     <br>
                                     <form method='POST'>
                                         {% csrf_token %}    
-                                    <div class="row justify-content-center">
-                                        <input type='text' name='prodID' value='{{ product.id }}' hidden>
-                                        <div class="col-6-md d-flex">
-                                            <div class="px-lg-1 pt-1">
-                                                <a href="#" class="btn btn-custom"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                        <div class="row justify-content-center">
+                                            <input type='text' name='prodID' value='{{ product.id }}' hidden>
+                                            <div class="col-6-md d-flex">
+                                                <div class="px-lg-1 pt-1">
+                                                    <a href="#" class="btn btn-custom"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-6-md d-flex">
-                                            <div class="px-lg-1 pt-1">
-                                                <button name='addToCart' type='submit' class="btn btn-custom"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                                            <div class="col-6-md d-flex">
+                                                <div class="px-lg-1 pt-1">
+                                                    <button name='addToCart' type='submit' class="btn btn-custom"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                                                </div>
                                             </div>
+                                             <div id="toast">Item added succesfully</div>
                                         </div>
-                                        
-                                    </div>
                                     </form>
                                   </div>
                                 </div>
@@ -227,6 +227,19 @@
         <!-- End content-wrapper -->
     </div>
     <!-- End wrapper  -->
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+            {% if "toast" in message.tags %}
+            <script>
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
     <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

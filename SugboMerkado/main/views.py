@@ -4,6 +4,7 @@ from django.contrib import messages
 from product.models import *
 from customer.models import *
 from product.forms import *
+from order.models import *
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 
@@ -11,8 +12,9 @@ from django.db.models.functions import TruncMonth
 
 class MainIndexView(View):
 	def get(self, request):
-		qsproducts = Product.objects.all();
+		qsproducts = Product.objects.all()
 		customers = Customer.objects.all()
+		transaction = Purchase.objects.all()
 
 		for prod in qsproducts:
 			prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
@@ -20,6 +22,7 @@ class MainIndexView(View):
 		count = []
 		count.append(customers.count())
 		count.append(qsproducts.count())
+		count.append(transaction.count())
 
 		# Customer chart
 		chartCustomer = (Customer.objects.all().
@@ -31,7 +34,7 @@ class MainIndexView(View):
 			).values('month','year').annotate(count_items = Count('date_regis'))
 		)
 
-		# 0 registrants as default for for 12 months 
+		# 0 registrants as default for 12 months 
 		valCustomer = [0,0,0,0,0,0,0,0,0,0,0,0]
 		
 		for c in chartCustomer:
@@ -47,18 +50,35 @@ class MainIndexView(View):
 			).values('month','year').annotate(count_items = Count('dateRegistered'))
 		)
 
-		# 0 registrants as default for for 12 months 
+		# 0 registrants as default for 12 months 
 		valProduct = [0,0,0,0,0,0,0,0,0,0,0,0]
 		
 		for c in chartProduct:
 			valProduct[c['month']-1] += c['count_items']
 
+		# Purchase chart
+		chartPurchase = (Purchase.objects.all().
+			extra(
+				select = {
+					'month':"EXTRACT(month FROM datePurchased)",
+					'year': "EXTRACT(year FROM datePurchased)",
+				}
+			).values('month','year').annotate(count_items = Count('datePurchased'))
+		)
+
+		# 0 registrants as default for 12 months 
+		valPurchase = [0,0,0,0,0,0,0,0,0,0,0,0]
+		
+		for c in chartPurchase:
+			valPurchase[c['month']-1] += c['count_items']
+
 		context = {
-			'products':qsproducts,
-			'customers':customers,
-			'count':count,
+			'products': qsproducts,
+			'customers': customers,
+			'count': count,
 			'valCustomer': valCustomer,
 			'valProduct': valProduct,
+			'valPurchase': valPurchase,
 		}
 		
 		return render(request, 'main/dashboard.html',context)

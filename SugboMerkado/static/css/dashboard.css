@@ -25,6 +25,12 @@ table a{
 	color: #ffffff;
 }
 
+#purchaseCard{
+	background-color:#fdd017;
+	border: none;
+	color: #ffffff;
+}
+
 .excelBtn{
 	background-color:#ef476f;
 	border:none;
@@ -32,12 +38,7 @@ table a{
 
 /*customer*/
 #regForm {
-  /* background-color: #ffffff; */
-  /* margin: 100px auto; */
   font-family: Raleway;
-  /* padding: 20px; */
-  /* width: 100%; */
-  /* min-width: 300px; */
 }
 
 #regForm input {
@@ -57,7 +58,6 @@ table a{
   display: block;
   width: 100%;
   height: 250px;
-  /* height: 60% !important;  */
   margin: auto 10px;
   border-radius: 50%;;
 }

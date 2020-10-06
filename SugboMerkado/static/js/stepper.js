@@ -36,7 +36,7 @@ function nextPrev(n) {
                 document.getElementById("nextBtn").innerHTML = "Submit";
                 document.getElementById("nextBtn").setAttribute("name","submitBtn");
                 document.getElementById("nextBtn").setAttribute("type","submit");
-                event.preventDefault;
+                event.preventDefault();
             }
             else{
                 document.getElementById("nextBtn").innerHTML = "Next";

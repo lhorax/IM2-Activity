@@ -162,7 +162,7 @@
                         <h1 class="mx-auto"><b>Dashboard</b></h1>
                     </div>
 					
-					<div class="col-md-7 mx-auto card-deck">
+					<div class="col-md mx-auto card-deck">
 					<div class="card" id="customerCard">
 						<div class="card-body">
 							<div class="row align-items-center">
@@ -188,8 +188,21 @@
 								</div>
 							</div>
 						</div>
+                    </div>
+                    <div class='card' id="purchaseCard">
+						<div class="card-body">
+							<div class="row align-items-center">
+								<div class="col-md-6">
+									<h6 class="font-weight-normal mt-0 text-truncate">Total Purchases</h6>
+									<h3 class="my-auto">{{ count.2 }}</h3>
+								</div>
+								<div class="col-md-6 text-center my-2">
+									<i class="fas fa-comments-dollar fa-4x"></i>
+								</div>
+							</div>
+						</div>
 					</div>
-					</div>
+				</div>
 				<br><br>
 					
                     <div class="align-items-center justify-content-between mb-4">
@@ -198,15 +211,12 @@
                     </div>
 					
                     <div class="row m-5 p-0 m-0">
-                        <!-- Area Chart -->
                         <div class="col-12">
                             <div class="card shadow">
-                                <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Customer Statistics</h6>
                                 </div>
-                                <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <canvas id="lineChartCustomer"></canvas>
@@ -217,11 +227,9 @@
                     </div>
 
                     <div class="row m-5">
-                        <!-- Area Chart -->
                         <div class="col-12">
                             <div class="card shadow overflow-auto">
                                 <!-- Card Header - Dropdown -->
-								
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Customer Overview</h6>
@@ -499,7 +507,6 @@
                     </div> 
 
                     <div class="row m-5">
-                        <!-- Area Chart -->
                         <div class="col-12">
                             <div class="card shadow overflow-auto">
                                 <!-- Card Header - Dropdown -->
@@ -649,6 +656,29 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+
+                    <div class="align-items-center justify-content-between mb-4">
+                        <h4>Purchase</h4>
+						<hr style="width:30%;border-width:2px;text-align:left;margin:0">
+                    </div>
+                    <div class="row m-5 p-0 m-0">
+                        <div class="col-12">
+                            <div class="card shadow">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Purchase Statistics</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="lineChartPurchase"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <!-- /.container-fluid -->
 
@@ -659,7 +689,7 @@
                             <div class="txt17" style="color:gray">
                                 Copyright © 2020 All rights reserved | This project is made with <i
                                     class="fa fa-heart"></i> by <a href="#" target="_blank"
-                                    style="color:#2fce98">ALVAREZ</a>
+                                    style="color:#2fce98">LLANOS AND ALVAREZ</a>
                             </div>
                         </div>
                     </div>
@@ -682,6 +712,7 @@
     {% endif %}
     {{ valProduct | json_script:"valProduct" }}
     {{ valCustomer | json_script:"valCustomer" }}
+    {{ valPurchase | json_script:"valPurchase" }}
 
     {% block extrascripts %}
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -705,7 +736,7 @@
         <script src="{% static 'js/dashboard.js' %}"></script>
         <script src="{% static 'js/chartCustomer.js' %}"></script>
         <script src="{% static 'js/chartProduct.js' %}"></script>
-        <script src="{% static 'js/stepper.js' %}"></script>
+        <script src="{% static 'js/chartPurchase.js' %}"></script>
         <script src="{% static 'js/prodRegistration.js' %}"></script>
         <script src="{% static 'js/addRequire.js' %}"></script>
     {% endblock %}
