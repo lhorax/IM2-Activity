@@ -17,7 +17,7 @@ class OrderIndexView(View):
             list.clear()
             list.append('c'+cid)
         customer = Person.objects.get(id = cid)
-        qsproducts = Product.objects.all()
+        qsproducts = Product.objects.filter(quantity__gt = 0)
         for prod in qsproducts:
             prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
 

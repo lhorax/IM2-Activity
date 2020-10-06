@@ -136,6 +136,9 @@
                         <br>
                         <div class="row justify-content-center ">
                             <div class="card-deck d-flex">
+                                {% if products|length == 0%}
+                                    <h2>No Products to show :(</h2>
+                                {% endif %}
                                 {% for product in products %}
                                 <div class="card productCard">
                                     
