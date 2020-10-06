@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,7 @@
 
     <!-- Custom styles for this template-->
 	<link href="{% static 'css/temp.css' %}" rel="stylesheet">
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static 'css/order.css' %}" rel="stylesheet">
 
 </head>
 
@@ -135,93 +136,103 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <br>
-                    <h1 class="text-center mt-4" style="width: 100%;font-family: Raleway">Product Registration</h1>
+                    <h1 class="text-center mt-4" style="width: 100%;font-family: Raleway">Shopping Cart</h1>
 
                     <div class="row m-5">
-                        <!-- Area Chart -->
                         <div class="col-12">
                             <div class="card shadow overflow-auto">
                                 <!-- Card Body -->
                                 <div class="card-body">
-									<form name='form1' id="form1" action="" method="POST" style='margin:0px;' enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        
-										<div class='form-group row align-items-center'>
-											<div class='col-sm-12'>
-												<label class="d-flex mx-auto"><span class='col-sm-2 m-0 p-0'>Date Registered : </span><span class='col-sm-2' id="dateRegistered" name="dateRegistered"></span></label>
-											</div>
-											<div class='col-sm-12'>
-												<label class="d-flex"><span class='col-sm-2 m-0 p-0'>SKU : </span>{%if messages%}{% for message in messages%}{% if "skuID" in message.tags %}<input type='text' class='col-sm-2 m-0' style='border: none; color:#858796; font-weight: bold' name="sku" value={{message}}>{% endif %}{% endfor %}{% endif %}</label>
-											</div>
-										</div>
-										<hr><br>
-										<div class='form-group row'>
-											<label for='category' class='col-sm-3 col-form-label text-left'>Category : </label>
-											<div class='col-sm-9'>
-												<select name="category" id='category' class='form-control'>
-													<option value='Unisex' selected>Unisex</option>
-													<option value='Women'>Women</option>
-													<option value='Men'>Men</option>
-												</select>
-											</div>
-										</div>
-										<div class='form-group row'>
-											<label for='name' class='col-sm-3 col-form-label text-left'>Name : </label>
-											<div class='col-sm-9'><input type='text' name='name' id='name' maxlength="50" class='form-control' required></div>
-										</div>
-										<div class='form-group row'>
-											<label for='brand' class='col-sm-3 col-form-label text-left'>Brand : </label>
-											<div class='col-sm-9'><input type='text' name='brand' maxlength="50" id='brand' class='form-control'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='color' class='col-sm-3 col-form-label text-left'>Color : </label>
-											<div class='col-sm-9'><input type='text' name='color' id='color' class='form-control'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='size' class='col-sm-3 col-form-label text-left'>Size/Dimension :</label>
-											<div class='col-sm-9'><input type='text' name='size' id='size' class='form-control' placeholder='e.g. 16 x 24 in' pattern="\d.{0,}\s[x|X]\s\d.{0,}[in|inches]" title='e.g. 16 x 24 in'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='price' class='col-sm-3 col-form-label text-left'>Unit Price : </label>
-											<div class='col-sm-9'><input type="number" name="unitPrice" id='price' min="0.00" max="999999.99" title="Max price is Php 999,999.99" step="0.01" class='form-control' placeholder='Php 0.00' required></div>
-										</div>
-										<div class='form-group row'> 
-											<label for='qty' class='col-sm-3 col-form-label text-left'>No. of Stocks : </label>
-											<div class='col-sm-9'><input type='number' name='quantity' id='qty' min="1" max="9999" title="Max quantity is 9,999 units" class='form-control' placeholder='0' required></div>
-										</div>
-										<div class='form-group row'>
-											<label for='image' class='col-sm col-form-label d-flex'><span class="col-sm-3 p-0">Image File/s : </span>
-                                                
-												<div class='col-sm text-center' style="position: relative;">
-                                                    <img class="imgPreview1" id="p-1" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                                                    <input type='file' name='productImage' id='i-1' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)" required>
-                                                    <a style="display:none; color:#ef476f" class='pr-2 removeImage1' id="r-1" href="#" onclick="RemoveImage(this.id,event)">X</a>
-                                                </div>
-                                                <div class="col-sm text-center">
-                                                    <img class="imgPreview2" id="p-2" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                                                    <input type='file' name='productImage2' id='i-2' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)">
-                                                    <a style="display:none; color:#ef476f" class='pr-2 removeImage2' id="r-2" href="#" onclick="RemoveImage(this.id,event)">X</a>
-                                                </div>
-                                                <div class="col-sm text-center">
-                                                    <img class="imgPreview3" id="p-3" src="{% static '/websiteImgs/placeholder2.png' %}"/>
-                                                    <input type='file' name='productImage3' id='i-3' class='mt-2 form-control' accept="image/*" onchange="PreviewImageProduct(this.id)">
-                                                    <a style="display:none; color:#ef476f" class='pr-2 removeImage3' id="r-3" href="#" onclick="RemoveImage(this.id,event)">X</a>
-                                                </div>
-                                            </label>
-										</div>
-										<div class='form-group row'>
-											<div class="col-sm-2 offset-sm-10">
-												<button type="submit" class="btn btn-primary float-right m5 main-color" name="addProd" >Add Product</button>
-											</div>
-										</div>
-									</form>
+                                    <table id="example1" class="table" style="width:100%">
+                                        <thead class="table-header">
+                                            <tr class="text-center ">
+                                                <th></th>
+                                                <th>Product Details</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <form method="POST" >
+                                                {% csrf_token %}
+                                                <input type='text' id='datePurchased' name='datePurchased' value='' hidden>
+                                            {% for item in productItems %}
+                                            <input type='text' name='prodID' value='{{ item.id }}' hidden>
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td id='up-{{ forloop.counter }}'>{{ item.unitPrice|floatformat:2|intcomma }}</td>
+                                                <td class='center'>
+                                                    <label class="d-flex">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="q-{{ forloop.counter }}">
+                                                            <span><i class="fas fa-minus"></i></span>
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" name='qty' id="in-{{ forloop.counter }}" class="form-control input-number" value="1" min="1" max="{{ item.quantity }}" onkeydown="return event.key != 'Enter';">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="q-{{ forloop.counter }}">
+                                                            <span><i class="fas fa-plus"></i></span>
+                                                        </button>
+                                                    </span>
+                                                    </label>
+                                                </td>
+                                                <td class='totalPrice' id='tp-{{ forloop.counter }}'>{{ item.unitPrice }}</td>
+                                                <td class="text-center">
+                                                    <button class='removeBtn' value='{{ item.id }}' data-toggle="tooltip" title="Remove Item" name='removeItem' type="submit" ><i class="fas fa-times" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 offset-md-9">
+                                            <button class="btn btn-primary btn-block" id="proceedBtn" type="submit" name="addMoreBtn">Add More Items</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
+                <div class="container-fluid">
+                    <div class="row m-5">
+                        <div class='col-6'></div>
+                        <div class="col-6">
+                            <div class="card shadow overflow-auto">
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="px-lg-3 pt-3">
+                                        <div class="text-center">
+                                                <h4><strong>CART <label class="brown-text"><strong>TOTAL</strong></label></strong></h4>
+                                        </div>
+                                        <br>
+                                        <div class='row'>
+                                            <div class='form-group col-md-6'>
+                                                <h3>
+                                                    Total
+                                                </h3>
+                                            </div>
 
+                                            <div class='form-group col-md-6'>
+                                                <h3 id='grandTotal'></h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <button class="btn btn-primary btn-block" id="proceedBtn" type="submit" name="btnProceed">Proceed to Checkout</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -248,12 +259,7 @@
     </div>
     <!-- End wrapper  -->
 
-    {% if messages %}
-        {% for message in messages %}
-            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
-            {% if "error" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
-        {% endfor %}
-    {% endif %}
+    
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -266,7 +272,8 @@
         crossorigin="anonymous"></script>
 	
     <script src="{% static 'js/temp.js' %}"></script>
-    <script src="{% static 'js/prodRegistration.js' %}"></script>
+    <script src="{% static 'js/order.js' %}"></script>
+    
 
 
 </body>

@@ -1,30 +1,30 @@
+{% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 
-
-    <title>Product Registration - Sugbo Merkado</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    
 
     <!-- Custom styles for this template-->
-	<link href="css/temp.css" rel="stylesheet">
-    <link href="css/dashboard.css" rel="stylesheet">
-
+    <link href="{% static 'css/temp.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
 <body>
@@ -47,8 +47,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'main:index_view' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -64,15 +64,15 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'customer:index_view' %}">
                     <i class="fa fa-users"></i>
                     <span>Customers</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{% url 'product:index_view' %}">
                     <i class="fa fa-list"></i>
                     <span>Products</span></a>
             </li>
@@ -101,34 +101,9 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-					
+                    
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -137,7 +112,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline">Valerie</span>
                                 <img class="img-profile rounded-circle"
-                                    src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                    src="{% static '/websiteImgs/placeholder.png' %}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -154,82 +129,84 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="mx-auto"><b>Product Registration</b></h1>
-                    </div>
+                    <div class="productContainer">
+                        <div class="pop-bar">
+                            <h2 id="pop-title">Available Products for {{ customer.firstname }}</h2>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center ">
+                            <div class="card-deck d-flex">
+                                {% for product in products %}
+                                <div class="card productCard">
+                                    
+                                    <div id="carouselExampleControls-{{ product.id }}" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for img in product.ProductImages %}
 
-                    <div class="row m-5">
-                        <!-- Area Chart -->
-                        <div class="col-12">
-                            <div class="card shadow overflow-auto">
-                                <!-- Card Body -->
-                                <div class="card-body">
-									<form method="post" style='margin:0px;'>
-										<div class='form-group row align-items-center'>
-											<div class='col-sm-12'>
-												<label class="d-flex mx-auto"><span class='col-sm-2 m-0 p-0'>Date Registered : </span><span class='col-sm-2'> 2020 / 02 / 01</span></label>
-											</div>
-											<div class='col-sm-12'>
-												<label class="d-flex"><span class='col-sm-2 m-0 p-0'>SKU : </span><span class='col-sm-2'><b>PAAAA1</b></span></label>
-											</div>
-										</div>
-										<hr><br>
-										<div class='form-group row'>
-											<label for='category' class='col-sm-3 col-form-label text-left'>Category : </label>
-											<div class='col-sm-9'>
-												<select name="category" id='category' class='form-control'>
-													<option name='unisex'>Unisex</option>
-													<option name='Women'>Women</option>
-													<option name='Men'>Men</option>
-												</select>
-											</div>
-										</div>
-										<div class='form-group row'>
-											<label for='name' class='col-sm-3 col-form-label text-left'>Name : </label>
-											<div class='col-sm-9'><input type='text' name='prodName' id='name' class='form-control' required></div>
-										</div>
-										<div class='form-group row'>
-											<label for='brand' class='col-sm-3 col-form-label text-left'>Brand : </label>
-											<div class='col-sm-9'><input type='text' name='prodBrand' id='brand' class='form-control'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='color' class='col-sm-3 col-form-label text-left'>Color : </label>
-											<div class='col-sm-9'><input type='text' name='prodColor' id='color' class='form-control'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='size' class='col-sm-3 col-form-label text-left'>Size/Dimension :</label>
-											<div class='col-sm-9'><input type='text' name='prodSize' id='size' class='form-control' placeholder='e.g. 16 x 24 in'></div>
-										</div>
-										<div class='form-group row'>
-											<label for='price' class='col-sm-3 col-form-label text-left'>Unit Price : </label>
-											<div class='col-sm-9'><input type="number" name="unitPrice" id='price' min="0.00" step="0.01" class='form-control' placeholder='Php 0.00' required></div>
-										</div>
-										<div class='form-group row'> 
-											<label for='qty' class='col-sm-3 col-form-label text-left'>No. of Stocks : </label>
-											<div class='col-sm-9'><input type='number' name='qty' id='qty' min="1" class='form-control' placeholder='0' required></div>
-										</div>
-										<div class='form-group row'>
-											<label for='image' class='col-sm col-form-label d-flex'><span class="col-sm-3 p-0">Image File : </span>
-												<input type='file' name='image1' id='image1' class='ml-2 mr-1 form-control' required>
-												<input type='file' name='image2' id='image2' class='ml-1 mr-1 form-control' >
-												<input type='file' name='image3' id='image3' class='ml-1 form-control' ></label>
-										</div>
-										<div class='form-group row'>
-											<div class="col-sm-2 offset-sm-10">
-												<button type="submit" class="btn btn-primary float-right m5 main-color" >Add Product</button>
-											</div>
-										</div>
-									</form>
+                                                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                                                    <img class="d-block card-img-top" src="/static{{img.productImage.url}}" alt="Card image">
+                                                </div>
+                                           
+                                            {% endfor %}
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls-{{ product.id }}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls-{{ product.id }}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                  
+                                  
+
+                                  <div class="card-body">
+                                    <a href="#"><h3 class="card-title">{{ product.name }}</h3></a>
+                                    <div id="price">
+                                        <h4 class="card-title">PHP {{ product.unitPrice|floatformat:2|intcomma }}</h4>
+                                    </div>
+                                    <br>
+                                    <form method='POST'>
+                                        {% csrf_token %}    
+                                    <div class="row justify-content-center">
+                                        <input type='text' name='prodID' value='{{ product.id }}' hidden>
+                                        <div class="col-6-md d-flex">
+                                            <div class="px-lg-1 pt-1">
+                                                <a href="#" class="btn btn-custom"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6-md d-flex">
+                                            <div class="px-lg-1 pt-1">
+                                                <button name='addToCart' type='submit' class="btn btn-custom"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    </form>
+                                  </div>
                                 </div>
+                                {% if forloop.counter|divisibleby:3 %}                                       
+                                    </div>
+                                    <div class="card-deck d-flex">
+                                {% endif %}
+                                {% endfor %}
+
                             </div>
                         </div>
+                            
+
                     </div>
+                <br>
+                <div class="d-flex justify-content-end mr-5">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn cancelPurchase mr-3" name="cancelPurchaseBtn">Cancel Purchase</button>
+                        <button type="submit" class="btn cartBtn" name="cartBtn">Go to Cart</button>
+                    </form>
                 </div>
-                <!-- /.container-fluid -->
-
-
-
+                <br>
+                <br>
 
                 <!-- Footer -->
                 <footer class="page-footer font-small">
@@ -238,24 +215,20 @@
                             <div class="txt17" style="color:gray">
                                 Copyright © 2020 All rights reserved | This project is made with <i
                                     class="fa fa-heart"></i> by <a href="#" target="_blank"
-                                    style="color:#2fce98">ALVAREZ</a>
+                                    style="color:#2fce98">LLANOS</a>
                             </div>
                         </div>
                     </div>
                 </footer>
                 <!-- End of Footer -->
-
             </div>
             <!-- End main content -->
-
         </div>
         <!-- End content-wrapper -->
-       
     </div>
     <!-- End wrapper  -->
-	
 
-
+    <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -265,13 +238,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-	
-    <script src="js/temp.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/chartCustomer.js"></script>
-    <script src="js/chartProduct.js"></script>
 
+
+    <!-- custom js -->
+    <script src="{% static 'js/temp.js' %}"></script>
 
 </body>
-
 </html>

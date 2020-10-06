@@ -11,7 +11,7 @@ $(document).ready(function() {
 	}
 	var year = d.getFullYear();
 	var temp = ""+year+"/"+month+"/"+day;
-	document.getElementById("dateRegistered").innerHTML = temp;
+	document.getElementById("datePurchased").innerHTML = temp;
 
 });
 

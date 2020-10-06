@@ -4,6 +4,8 @@ from django.contrib import messages
 from product.models import *
 from customer.models import *
 from product.forms import *
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 # Create your views here.
 
@@ -14,10 +16,49 @@ class MainIndexView(View):
 
 		for prod in qsproducts:
 			prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
+		
+		count = []
+		count.append(customers.count())
+		count.append(qsproducts.count())
+
+		# Customer chart
+		chartCustomer = (Customer.objects.all().
+			extra(
+				select = {
+					'month':"EXTRACT(month FROM date_regis)",
+					'year': "EXTRACT(year FROM date_regis)",
+				}
+			).values('month','year').annotate(count_items = Count('date_regis'))
+		)
+
+		# 0 registrants as default for for 12 months 
+		valCustomer = [0,0,0,0,0,0,0,0,0,0,0,0]
+		
+		for c in chartCustomer:
+			valCustomer[c['month']-1] += c['count_items']
+
+		# Product chart
+		chartProduct = (Product.objects.all().
+			extra(
+				select = {
+					'month':"EXTRACT(month FROM dateRegistered)",
+					'year': "EXTRACT(year FROM dateRegistered)",
+				}
+			).values('month','year').annotate(count_items = Count('dateRegistered'))
+		)
+
+		# 0 registrants as default for for 12 months 
+		valProduct = [0,0,0,0,0,0,0,0,0,0,0,0]
+		
+		for c in chartProduct:
+			valProduct[c['month']-1] += c['count_items']
 
 		context = {
 			'products':qsproducts,
-			'customers':customers
+			'customers':customers,
+			'count':count,
+			'valCustomer': valCustomer,
+			'valProduct': valProduct,
 		}
 		
 		return render(request, 'main/dashboard.html',context)
@@ -29,6 +70,11 @@ class MainIndexView(View):
 
 			if 'addProdBtn' in request.POST:
 				return redirect('product:registration_view')
+
+			if 'customerBuy' in request.POST:
+				cid = request.POST.get("customer-id")
+				request.session['cid'] = cid
+				return redirect('order:index_view')
 
 			if 'btnUpdateCustomer' in request.POST:
 				sid = request.POST.get("customer-id")

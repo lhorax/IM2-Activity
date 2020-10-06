@@ -3,6 +3,7 @@ from django.views.generic import View, TemplateView
 from django.contrib import messages
 from .forms import CustomerForm
 from .models import *
+from order.urls import *
 
 # Create your views here.
 class CustomerIndexView(View):
@@ -76,7 +77,11 @@ class CustomerIndexView(View):
 
 				messages.success(request, 'Customer record deleted!', extra_tags='save')
 				return redirect('customer:index_view')
-	
+			
+			if 'customerBuy' in request.POST:
+				cid = request.POST.get("customer-id")
+				request.session['cid'] = cid
+				return redirect('order:index_view')
 
 class CustomerRegistrationView(View):
 	def get(self, request):
