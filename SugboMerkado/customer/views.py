@@ -4,13 +4,33 @@ from django.contrib import messages
 from .forms import CustomerForm
 from .models import *
 from order.urls import *
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 # Create your views here.
 class CustomerIndexView(View):
 	def get(self, request):
 		customers = Customer.objects.all()
+
+		# Customer chart
+		chartCustomer = (Customer.objects.all().
+			extra(
+				select = {
+					'month':"EXTRACT(month FROM date_regis)",
+					'year': "EXTRACT(year FROM date_regis)",
+				}
+			).values('month','year').annotate(count_items = Count('date_regis'))
+		)
+
+		# 0 registrants as default for for 12 months 
+		valCustomer = [0,0,0,0,0,0,0,0,0,0,0,0]
+		
+		for c in chartCustomer:
+			valCustomer[c['month']-1] += c['count_items']
+
 		context = {
-			'customers':customers
+			'customers':customers,
+			'valCustomer': valCustomer,
 		}
 		return render(request, 'customer/index.html',context)
 

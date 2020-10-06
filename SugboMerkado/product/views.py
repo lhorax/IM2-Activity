@@ -4,6 +4,8 @@ from django.contrib import messages
 from .functions import getSku
 from .models import *
 from .forms import *
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 # Create your views here.
 
@@ -14,8 +16,25 @@ class ProductIndexView(View):
 		for prod in qsproducts:
 			prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
 
+		# Product chart
+		chartProduct = (Product.objects.all().
+			extra(
+				select = {
+					'month':"EXTRACT(month FROM dateRegistered)",
+					'year': "EXTRACT(year FROM dateRegistered)",
+				}
+			).values('month','year').annotate(count_items = Count('dateRegistered'))
+		)
+
+		# 0 registrants as default for for 12 months 
+		valProduct = [0,0,0,0,0,0,0,0,0,0,0,0]
+		
+		for c in chartProduct:
+			valProduct[c['month']-1] += c['count_items']
+
 		context = {
-			'products':qsproducts
+			'products':qsproducts,
+			'valProduct': valProduct,
 		}
 
 		return render(request, 'product/product.html',context)
