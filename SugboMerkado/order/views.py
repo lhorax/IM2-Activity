@@ -18,7 +18,16 @@ class OrderIndexView(View):
             list.clear()
             list.append('c'+cid)
         customer = Person.objects.get(id = cid)
-        qsproducts = Product.objects.filter(quantity__gt = 0)
+
+        category = request.session.get('category')
+
+        if category == 'Men':
+            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category)
+        elif category =='Women':
+            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category)
+        else:
+            qsproducts = Product.objects.filter(quantity__gt = 0)
+
         for prod in qsproducts:
             prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
 
@@ -41,6 +50,20 @@ class OrderIndexView(View):
                 return redirect('customer:index_view')
             if 'cartBtn' in request.POST:
                 return redirect('order:cart_view')
+            if 'Unisex' in request.POST:
+                category = request.POST.get("categoryUnisex")
+                request.session['category'] = category
+                return redirect('order:index_view')
+            if 'Men' in request.POST:
+                category = request.POST.get("categoryMen")
+                request.session['category'] = category
+                return redirect('order:index_view')
+            if 'Women' in request.POST:
+                category = request.POST.get("categoryWomen")
+                request.session['category'] = category
+                return redirect('order:index_view')
+
+            
 
 
 class OrderListView(View):
@@ -102,3 +125,10 @@ class OrderedProductsView(View):
             'purchase' : qspurchase,
         }
         return render(request, 'orders/orderList.html',context)
+
+class ProductsCategoryView(View):
+    def get(self, request):
+        return HttpResponse('hi')
+    def post(self, request):
+        if 'Unisex' in request.Post:
+            return render(request, 'orders/orderList.html')
