@@ -1,33 +1,30 @@
 {% load static %}
 {% load humanize %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 
-
-    <title>Product Registration - Sugbo Merkado</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    
 
     <!-- Custom styles for this template-->
-	<link href="{% static 'css/temp.css' %}" rel="stylesheet">
-    <link href="{% static 'css/order.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/temp.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
 <body>
@@ -39,7 +36,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'main:index_view' %}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -50,7 +47,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="{% url 'main:index_view' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -67,7 +64,7 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'customer:index_view' %}">
                     <i class="fa fa-users"></i>
                     <span>Customers</span></a>
@@ -104,19 +101,19 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-					
+                    
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class='nav-item' >
-                            <a class="nav-link" href="{% url 'order:index_view' %}" role="button" title="Shoping Cart">
+                            <a class="nav-link" href="{% url 'order:index_view' %}" role="button" title="Shoping Cart" style="color:white">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         </li>
-                        <liv class='nav-item' >
+                        <li class='nav-item' >
                             <a class="nav-link" href="{% url 'order:bag_view' %}" role="button" title="Shoping Bag">
                                 <i class="fas fa-shopping-bag"></i>
                             </a>
-                        </liv>
+                        </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
@@ -141,108 +138,87 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <br>
-                    <h1 class="text-center mt-4" style="width: 100%;font-family: Raleway">Shopping Cart</h1>
+                    <div class="productContainer">
+                        <div class="pop-bar">
+                            <h2 id="pop-title">Available Products for {{ customer.firstname }}</h2>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center ">
+                            <div class="card-deck d-flex">
+                                {% if products|length == 0%}
+                                    <h2 style="margin: 200px;">Sorry it seems like there is no products available at the moment</h2>
+                                {% endif %}
+                                {% for product in products %}
+                                <div class="card productCard">
+                                    
+                                    <div id="carouselExampleControls-{{ product.id }}" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            {% for img in product.ProductImages %}
 
-                    <div class="row m-5">
-                        <div class="col-12">
-                            <div class="card shadow overflow-auto">
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <table id="example1" class="table" style="width:100%">
-                                        <thead class="table-header">
-                                            <tr class="text-center ">
-                                                <th></th>
-                                                <th>Product Details</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Total Price</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <form method="POST" >
-                                                {% csrf_token %}
-                                                <input type='text' id='datePurchased' name='datePurchased' value='' hidden>
-                                            {% for item in productItems %}
-                                            <input type='text' name='prodID' value='{{ item.id }}' hidden>
-                                            <tr>
-                                                <td>{{ forloop.counter }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td id='up-{{ forloop.counter }}'>{{ item.unitPrice|floatformat:2|intcomma }}</td>
-                                                <td class='center'>
-                                                    <label class="d-flex">
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="q-{{ forloop.counter }}">
-                                                            <span><i class="fas fa-minus"></i></span>
-                                                        </button>
-                                                    </span>
-                                                    <input type="text" name='qty' id="in-{{ forloop.counter }}" class="form-control input-number" value="1" min="1" max="{{ item.quantity }}" onenter>
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="q-{{ forloop.counter }}">
-                                                            <span><i class="fas fa-plus"></i></span>
-                                                        </button>
-                                                    </span>
-                                                    </label>
-                                                </td>
-                                                <td class='totalPrice' id='tp-{{ forloop.counter }}'>{{ item.unitPrice }}</td>
-                                                <input type='text' name='totalPrice' id='tp-{{ forloop.counter }}-2' value='{{ item.unitPrice }}' hidden>
-                                                <td class="text-center">
-                                                    <button class='removeBtn' value='{{ item.id }}' data-toggle="tooltip" title="Remove Item" name='removeItem' type="submit" ><i class="fas fa-times" aria-hidden="true"></i></button>
-                                                </td>
-                                            </tr>
+                                                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                                                    <img class="d-block card-img-top" src="/static{{img.productImage.url}}" alt="Card image">
+                                                </div>
+                                           
                                             {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    <div class="row">
-                                        <div class="form-group col-md-3 offset-md-9">
-                                            <button class="btn btn-primary btn-block" id="proceedBtn" type="submit" name="addMoreBtn">Add More Items</button>
                                         </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls-{{ product.id }}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls-{{ product.id }}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
+                                  
+                                  
+
+                                  <div class="card-body">
+                                    <a href="#"><h3 class="card-title">{{ product.name }}</h3></a>
+                                    <div id="price">
+                                        <h4 class="card-title">PHP {{ product.unitPrice|floatformat:2|intcomma }}</h4>
+                                    </div>
+                                    <br>
+                                    <form method='POST'>
+                                        {% csrf_token %}    
+                                        <div class="row justify-content-center">
+                                            <input type='text' name='prodID' value='{{ product.id }}' hidden>
+                                            <div class="col-6-md d-flex">
+                                                <div class="px-lg-1 pt-1">
+                                                    <a href="#" class="btn btn-custom"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex">
+                                                <div class="px-lg-1 pt-1">
+                                                    <button name='addToCart' type='submit' class="btn btn-custom"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                            <div id="toast">Item added succesfully</div>
+                                        </div>
+                                    </form>
+                                  </div>
                                 </div>
+                                {% if forloop.counter|divisibleby:3 %}                                       
+                                    </div>
+                                    <div class="card-deck d-flex">
+                                {% endif %}
+                                {% endfor %}
+
                             </div>
                         </div>
+                            
+
                     </div>
+                <br>
+                <div class="d-flex justify-content-end mr-5">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn cancelPurchase mr-3" name="cancelPurchaseBtn">Cancel Purchase</button>
+                        <button type="submit" class="btn cartBtn" name="cartBtn">Go to Cart</button>
+                    </form>
                 </div>
-                <!-- /.container-fluid -->
-                <div class="container-fluid">
-                    <div class="row m-5">
-                        <div class='col-6'></div>
-                        <div class="col-6">
-                            <div class="card shadow overflow-auto">
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="px-lg-3 pt-3">
-                                        <div class="text-center">
-                                                <h4><strong>CART <label class="brown-text"><strong>TOTAL</strong></label></strong></h4>
-                                        </div>
-                                        <br>
-                                        <div class='row'>
-                                            <div class='form-group col-md-6'>
-                                                <h3>
-                                                    Total
-                                                </h3>
-                                            </div>
-
-                                            <div class='form-group col-md-6'>
-                                                <h3 id='grandTotal'></h3>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
-                                                <button class="btn btn-primary btn-block" id="proceedBtn" type="submit" name="btnProceed">Proceed to Checkout</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+                <br>
+                <br>
 
                 <!-- Footer -->
                 <footer class="page-footer font-small">
@@ -251,24 +227,33 @@
                             <div class="txt17" style="color:gray">
                                 Copyright © 2020 All rights reserved | This project is made with <i
                                     class="fa fa-heart"></i> by <a href="#" target="_blank"
-                                    style="color:#2fce98">ALVAREZ</a>
+                                    style="color:#2fce98">LLANOS</a>
                             </div>
                         </div>
                     </div>
                 </footer>
                 <!-- End of Footer -->
-
             </div>
             <!-- End main content -->
-
         </div>
         <!-- End content-wrapper -->
-       
     </div>
     <!-- End wrapper  -->
 
+    {% if messages %}
+        {% for message in messages %}
+            {% if "save" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+            {% if "toast" in message.tags %}
+            <script>
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     
-
+    <!-- bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -278,12 +263,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-	
-    <script src="{% static 'js/temp.js' %}"></script>
-    <script src="{% static 'js/order.js' %}"></script>
-    
 
+
+    <!-- custom js -->
+    <script src="{% static 'js/temp.js' %}"></script>
 
 </body>
-
 </html>

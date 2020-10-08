@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
+from django.db.models import Count
 from .models import *
 from customer.models import *
 from product.models import *
@@ -25,7 +26,7 @@ class OrderIndexView(View):
             'customer':customer,
             'products':qsproducts,
         }
-        return render(request, 'orders/order.html',context)
+        return render(request, 'orders/index.html',context)
 
     def post(self, request):
         if request.method == 'POST':
@@ -45,6 +46,7 @@ class OrderIndexView(View):
 class OrderListView(View):
     def get(self, request):
         cid = request.session.get('cid')
+        customer = Person.objects.get(id = cid)
         qsproducts = []
         count = 1
         for x in list:
@@ -54,8 +56,9 @@ class OrderListView(View):
         
         context = {
             'productItems' : qsproducts,
+            'customer' : customer,
         }
-        return render(request, 'orders/orderList.html',context)
+        return render(request, 'orders/order.html',context)
 
     def post(self, request):
         if 'addMoreBtn' in request.POST:
@@ -68,16 +71,14 @@ class OrderListView(View):
             customerObj = Customer.objects.get(id = cid)
             prodIds = request.POST.getlist('prodID')
             quantity = request.POST.getlist('qty')
+            totalPrice = request.POST.getlist('totalPrice')
             i=0
             for prodId in prodIds:
                 productObj = Product.objects.get(id = prodId)
-                if i < len(quantity):
-                    productObj.quantity = productObj.quantity - int(quantity[i])
-                    productObj.save()
-                    for qty in range(int(quantity[i])):
-                        form = Purchase(datePurchased = datePurchased, customerID = customerObj, productID = productObj)
-                        form.save()
-
+                productObj.quantity = productObj.quantity - int(quantity[i])
+                productObj.save()
+                form = Purchase(datePurchased = datePurchased, quantity = quantity[i], totalPrice = float(totalPrice[i]), customerID = customerObj, productID = productObj)
+                form.save()
                 i = i+1
             list.clear()
             messages.success(request, 'Purchase successful!', extra_tags='save')
@@ -87,3 +88,17 @@ class OrderListView(View):
             item = request.POST.get('removeItem')
             list.remove(item)
             return redirect('order:cart_view')
+
+class OrderedProductsView(View):
+    def get(self, request):
+        cid = request.session.get('cid')
+        qscustomer = Person.objects.get(id = cid)
+        qspurchase = Purchase.objects.filter(customerID = cid)
+        for prod in qspurchase:
+            prod.ProductImages = ProductImages.objects.filter(product_id = prod.productID.id)
+
+        context = {
+            'customer' : qscustomer,
+            'purchase' : qspurchase,
+        }
+        return render(request, 'orders/orderList.html',context)

@@ -25,8 +25,10 @@ $('.btn-number').click(function(e){
     var input = $("input[id='in-"+num+"']");
     var str1 = 'up-'+num;
     var str2 = 'tp-'+num;
+    var str3 = 'tp-'+num+'-2';
     var unitPrice = document.getElementById(str1);
     var totalPrice = document.getElementById(str2);
+    var totalInput = document.getElementById(str3);
     var currentVal = parseInt(input.val());
     var p1 = parseFloat(unitPrice.innerHTML.replace(',',''));
     if (!isNaN(currentVal)) {
@@ -36,6 +38,7 @@ $('.btn-number').click(function(e){
                 input.val(currentVal - 1).change();
                 var p2 = parseFloat(p1*(currentVal-1))
                 totalPrice.innerHTML = p2.toLocaleString();
+                totalInput.value = p2;
             } 
             if(parseInt(input.val()) == input.attr('min')) {
                 $(this).attr('disabled', true);
@@ -47,6 +50,7 @@ $('.btn-number').click(function(e){
                 input.val(currentVal + 1).change();
                 var p2 = parseFloat(p1*(currentVal+1))
                 totalPrice.innerHTML = p2.toLocaleString();
+                totalInput.value = p2;
             }
             if(parseInt(input.val()) == input.attr('max')) {
                 $(this).attr('disabled', true);

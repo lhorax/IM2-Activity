@@ -1,4 +1,4 @@
-/*order.html*/
+/*index.html*/
 .productContainer{
     margin:10px 0 0 0;
     overflow:hidden;
@@ -60,7 +60,7 @@
     color:white;
 }
 
-/*orderlist*/
+/*order*/
 table i{
     padding: 5px;
 }
@@ -128,4 +128,9 @@ table button{
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+}
+
+/*orderlist*/
+.icon{
+    color:#118ab2;
 }

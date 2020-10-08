@@ -5,6 +5,8 @@ from product.models import *
 
 class Purchase(models.Model):
     datePurchased = models.DateField(auto_now_add=True)
+    quantity = models.IntegerField()
+    totalPrice = models.FloatField()
     customerID = models.ForeignKey(Customer, null = False, blank = False, on_delete = models.CASCADE)
     productID = models.ForeignKey(Product, null = False, blank = False, on_delete = models.CASCADE)
 
