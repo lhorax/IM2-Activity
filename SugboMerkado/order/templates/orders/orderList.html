@@ -201,6 +201,13 @@
                                                             <div class="col-sm-9"><input type='text' class='form-control' value='{{item.productID.name}}' readonly></div>
                                                         </div>
                                                         <br>
+                                                        {% if item.productID.color != '' %}
+                                                        <div class='row'>
+                                                            <label class='col-sm-3 pt-1'>Color : </label>
+                                                            <div class="col-sm-9"><input type='text' class='form-control' value='{{item.productID.color}}' readonly></div>
+                                                        </div>
+                                                        <br>
+                                                        {% endif %}
                                                         {% if item.productID.size != '' %}
                                                         <div class='row'>
                                                             <label class='col-sm-3 pt-1'>Size : </label>
