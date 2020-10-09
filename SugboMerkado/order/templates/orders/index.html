@@ -104,6 +104,29 @@
                     
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <form style="display: contents;" method="POST">
+                            {% csrf_token %}
+                            <li class='nav-item' >
+                                <a class="nav-link" title="Unisex">
+                                    <input type="text" name="categoryUnisex" value = "Unisex" hidden>
+                                    <button type="submit" name="Unisex" style="color:white;display: contents;">Unisex</button>
+                                </a>
+                            </li>
+                            <li class='nav-item' >
+                                <a class="nav-link" title="Men">
+                                    <input type="text" name="categoryMen" value = "Men" hidden>
+                                    <button type="submit" name="Men" style="color:white;display: contents;">Men</button>
+                                </a>
+                            </li>
+
+                            <li class='nav-item' >
+                                <a class="nav-link" title="Women">
+                                    <input type="text" name="categoryWomen" value = "Women" hidden>
+                                    <button type="submit" name="Women" style="color:white;display: contents;">Women</button>
+                                </a>
+                            </li>
+                        </form>
+                        <div class="topbar-divider d-none d-sm-block"></div>
                         <li class='nav-item' >
                             <a class="nav-link" href="{% url 'order:index_view' %}" role="button" title="Shoping Cart" style="color:white">
                                 <i class="fas fa-shopping-cart"></i>
