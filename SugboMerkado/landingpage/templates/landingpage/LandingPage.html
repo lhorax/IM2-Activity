@@ -62,17 +62,17 @@
         		<div class="col-md-3" style="padding-top: 180px;">
         			<div class="login-form">
 
-					    <form action="" method="POST" autocomplete="off" enctype="multipart/form-data">
+					    <form method="POST">
 							{% csrf_token %}
-					        <h2 class="text-center" style="">Log in</h2>       
+					        <h2 class="text-center">Log in</h2>       
 					        <div class="form-group">
-					            <input type="text" class="form-control" placeholder="Username" required="required">
+					            <input type="text" class="form-control" placeholder="Username" name="Username" required="required">
 					        </div>
 					        <div class="form-group">
-					            <input type="password" class="form-control" placeholder="Password" required="required">
+					            <input type="password" class="form-control" placeholder="Password" name="Password" required="required">
 					        </div>
 					        <div class="form-group">
-					            <button type="submit" class="btn btn-primary btn-block" style="background-color: #2fce98; color: white;">Log in</button>
+					            <button type="submit" name="login" class="btn btn-primary btn-block" style="background-color: #2fce98; color: white;">Log in</button>
 					        </div>
 					        <div class="clearfix">
 					            <label class="float-left form-check-label" style="color: white;"><input type="checkbox"> Remember me</label>
@@ -199,7 +199,13 @@
         </footer>
 	
 	
-    </body>
+	</body>
+	
+	{% if messages %}
+        {% for message in messages %}
+            {% if "valid" in message.tags %}<script>alert("{{message}}")</script>{% endif %}
+        {% endfor %}
+    {% endif %}
         
 	
 </html>

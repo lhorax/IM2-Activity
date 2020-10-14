@@ -13,7 +13,7 @@ from django.db.models.functions import TruncMonth
 class MainIndexView(View):
 	def get(self, request):
 		qsproducts = Product.objects.all()
-		customers = Customer.objects.all()
+		customers = Customer.objects.filter(deleted=False)
 		transaction = Purchase.objects.all()
 
 		for prod in qsproducts:
@@ -25,7 +25,7 @@ class MainIndexView(View):
 		count.append(transaction.count())
 
 		# Customer chart
-		chartCustomer = (Customer.objects.all().
+		chartCustomer = (Customer.objects.filter(deleted=False).
 			extra(
 				select = {
 					'month':"EXTRACT(month FROM date_regis)",

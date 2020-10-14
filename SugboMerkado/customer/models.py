@@ -37,6 +37,7 @@ class Person(models.Model):
 class Customer(Person):
     emp_id = models.AutoField(primary_key=True)
     date_regis = models.DateField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         db_table = "Customer"
