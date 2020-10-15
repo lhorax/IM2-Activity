@@ -92,10 +92,6 @@ class ProductIndexView(View):
 
 			elif 'btnDelete' in request.POST:
 				prodId = request.POST.get('pprodID')
-				# delete_imgs = ProductImages.objects.filter(product_id = prodId)
-				# for img in delete_imgs:
-				# 	img.delete()
-				# delete_product = Product.objects.get(id = prodId).delete()
 				delete_product = Product.objects.filter(id = prodId).update(isdeleted = True)
 				messages.success(request, 'Product record deleted!', extra_tags='save')
 

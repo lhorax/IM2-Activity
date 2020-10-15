@@ -190,22 +190,13 @@ class MainIndexView(View):
 
 			elif 'btnCustDelete' in request.POST:
 				sid = request.POST.get("customer-id")
-
-				delete_img = Person.objects.get(id=sid)
-				if delete_img.profile_pic != "placeholder.png":
-					delete_img.profile_pic.delete()
-
-				customer = Customer.objects.filter(person_ptr_id = sid).delete()
-				person = Person.objects.filter(id = sid).delete()
-
+				sid = request.POST.get("customer-id")
+				delete_customer = Customer.objects.filter(person_ptr_id = sid).update(isdeleted = True)
 				messages.success(request, 'Customer record deleted!', extra_tags='save')
 
 			elif 'btnProdDelete' in request.POST:
 				prodId = request.POST.get('pprodID')
-				delete_imgs = ProductImages.objects.filter(product_id = prodId)
-				for img in delete_imgs:
-					img.delete()
-				delete_product = Product.objects.get(id = prodId).delete()
+				delete_product = Product.objects.filter(id = prodId).update(isdeleted = True)
 				messages.success(request, 'Product record deleted!', extra_tags='save')
 
 			return redirect('main:index_view')
