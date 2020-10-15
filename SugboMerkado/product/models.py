@@ -13,6 +13,7 @@ class Product(models.Model):
 	size = models.CharField(max_length = 25)
 	unitPrice = models.FloatField()
 	quantity = models.IntegerField()
+	isdeleted = models.BooleanField(default=False)
 
 	class Meta:
 		db_table = "Product"

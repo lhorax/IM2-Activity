@@ -12,8 +12,8 @@ from django.db.models.functions import TruncMonth
 
 class MainIndexView(View):
 	def get(self, request):
-		qsproducts = Product.objects.all()
-		customers = Customer.objects.all()
+		qsproducts = Product.objects.filter(isdeleted = False)
+		customers = Customer.objects.filter(isdeleted=False)
 		transaction = Purchase.objects.all()
 
 		for prod in qsproducts:
@@ -25,7 +25,7 @@ class MainIndexView(View):
 		count.append(transaction.count())
 
 		# Customer chart
-		chartCustomer = (Customer.objects.all().
+		chartCustomer = (Customer.objects.filter(isdeleted=False).
 			extra(
 				select = {
 					'month':"EXTRACT(month FROM date_regis)",
@@ -41,7 +41,7 @@ class MainIndexView(View):
 			valCustomer[c['month']-1] += c['count_items']
 
 		# Product chart
-		chartProduct = (Product.objects.all().
+		chartProduct = (Product.objects.filter(isdeleted = False).
 			extra(
 				select = {
 					'month':"EXTRACT(month FROM dateRegistered)",

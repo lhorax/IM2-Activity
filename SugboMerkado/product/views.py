@@ -11,13 +11,13 @@ from django.db.models.functions import TruncMonth
 
 class ProductIndexView(View):
 	def get(self, request):
-		qsproducts = Product.objects.all();
+		qsproducts = Product.objects.filter(isdeleted = False);
 		
 		for prod in qsproducts:
 			prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)
 
 		# Product chart
-		chartProduct = (Product.objects.all().
+		chartProduct = (Product.objects.filter(isdeleted = False).
 			extra(
 				select = {
 					'month':"EXTRACT(month FROM dateRegistered)",
@@ -92,10 +92,11 @@ class ProductIndexView(View):
 
 			elif 'btnDelete' in request.POST:
 				prodId = request.POST.get('pprodID')
-				delete_imgs = ProductImages.objects.filter(product_id = prodId)
-				for img in delete_imgs:
-					img.delete()
-				delete_product = Product.objects.get(id = prodId).delete()
+				# delete_imgs = ProductImages.objects.filter(product_id = prodId)
+				# for img in delete_imgs:
+				# 	img.delete()
+				# delete_product = Product.objects.get(id = prodId).delete()
+				delete_product = Product.objects.filter(id = prodId).update(isdeleted = True)
 				messages.success(request, 'Product record deleted!', extra_tags='save')
 
 			return redirect('product:index_view')

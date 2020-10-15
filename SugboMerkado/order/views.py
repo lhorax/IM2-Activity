@@ -21,11 +21,11 @@ class OrderIndexView(View):
         category = request.session.get('category')
 
         if category == 'Men':
-            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category)
+            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category).filter(isdeleted = False)
         elif category =='Women':
-            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category)
+            qsproducts = Product.objects.filter(quantity__gt=0).filter(category=category).filter(isdeleted = False)
         else:
-            qsproducts = Product.objects.filter(quantity__gt = 0)
+            qsproducts = Product.objects.filter(quantity__gt = 0).filter(isdeleted = False)
 
         for prod in qsproducts:
             prod.ProductImages = ProductImages.objects.filter(product_id = prod.id)

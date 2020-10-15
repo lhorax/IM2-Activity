@@ -10,10 +10,10 @@ from django.db.models.functions import TruncMonth
 # Create your views here.
 class CustomerIndexView(View):
 	def get(self, request):
-		customers = Customer.objects.all()
+		customers = Customer.objects.filter(isdeleted = False)
 
 		# Customer chart
-		chartCustomer = (Customer.objects.all().
+		chartCustomer = (Customer.objects.filter(isdeleted = False).
 			extra(
 				select = {
 					'month':"EXTRACT(month FROM date_regis)",
@@ -87,14 +87,7 @@ class CustomerIndexView(View):
 				
 			if 'btnDelete' in request.POST:
 				sid = request.POST.get("customer-id")
-
-				delete_img = Person.objects.get(id=sid)
-				if delete_img.profile_pic != "placeholder.png":
-					delete_img.profile_pic.delete()
-
-				customer = Customer.objects.filter(person_ptr_id = sid).delete()
-				person = Person.objects.filter(id = sid).delete()
-
+				delete_customer = Customer.objects.filter(person_ptr_id = sid).update(isdeleted = True)
 				messages.success(request, 'Customer record deleted!', extra_tags='save')
 				return redirect('customer:index_view')
 			
